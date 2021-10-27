@@ -29,8 +29,8 @@ def getData(coin_id):
     while status_code != 200:
         r = requests.get('https://api.coingecko.com/api/v3/coins/' + coin_id + '?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
         if r.status_code != 200:
-            print("Sleeping")
-            time.sleep(10)
+            print("Sleeping for 1 minute...")
+            time.sleep(60)
         status_code = r.status_code
 
     data = r.json()
