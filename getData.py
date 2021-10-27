@@ -29,18 +29,20 @@ def getData(coin_id):
     while status_code != 200:
         r = requests.get('https://api.coingecko.com/api/v3/coins/' + coin_id + '?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false')
         if r.status_code != 200:
-            print("Sleeping for 1 minute...")
-            time.sleep(60)
+            print("Sleeping for 15 seconds...")
+            time.sleep(15)
         status_code = r.status_code
 
     data = r.json()
 
-    if (not hasattr(data["market_data"]["ath"], "usd")):
-        all_time_high = ""
-    else:
-        all_time_high = data["market_data"]["ath"]["usd"]
-
-    data = {"id": data["id"],"symbol": data["symbol"],"name": data["name"],"block_time_in_minutes": data["block_time_in_minutes"],"hashing_algorithm": data["hashing_algorithm"],"categories": data["categories"],"genesis_date": data["genesis_date"],"developer_score": data["developer_score"],"community_score": data["community_score"],"liquidity_score": data["liquidity_score"],"description": data["description"]["en"], "homepage_link": data["links"]["homepage"], "blockchain_site": data["links"]["blockchain_site"], "subreddit_url": data["links"]["subreddit_url"], "github": data["links"]["repos_url"]["github"], "image_url": data["image"]["large"], "all_time_high(usd)": all_time_high, "all_time_high_date": data["market_data"]["ath_date"]}
+    all_time_high = data["market_data"]["ath"]["usd"] if hasattr(data["market_data"]["ath"], "usd") else ""
+    current_price = data["market_data"]["current_price"]["usd"] if hasattr(data["market_data"]["current_price"], "usd") else ""
+    market_cap = data["market_data"]["market_cap"]["usd"] if hasattr(data["market_data"]["market_cap"], "usd") else ""
+    price_change_percentage_1y = data["market_data"]["price_change_percentage_1y"] if hasattr(data["market_data"], "price_change_percentage_1y") else ""
+    price_change_percentage_7d = data["market_data"]["price_change_percentage_7d"] if hasattr(data["market_data"], "price_change_percentage_7d") else ""
+    price_change_percentage_30d = data["market_data"]["price_change_percentage_30d"] if hasattr(data["market_data"], "price_change_percentage_30d") else ""
+    
+    data = {"id": data["id"],"symbol": data["symbol"],"name": data["name"],"block_time_in_minutes": data["block_time_in_minutes"],"hashing_algorithm": data["hashing_algorithm"],"categories": data["categories"],"genesis_date": data["genesis_date"],"developer_score": data["developer_score"],"community_score": data["community_score"],"liquidity_score": data["liquidity_score"],"description": data["description"]["en"], "homepage_link": data["links"]["homepage"], "blockchain_site": data["links"]["blockchain_site"], "subreddit_url": data["links"]["subreddit_url"], "github": data["links"]["repos_url"]["github"], "image_url": data["image"]["large"], "all_time_high(usd)": all_time_high, "all_time_high_date": data["market_data"]["ath_date"], "market_cap": market_cap, "current_price": current_price, "price_change_percentage_1y": price_change_percentage_1y, "price_change_percentage_30d": price_change_percentage_30d, "price_change_percentage_7d": price_change_percentage_7d}
 
     rows.append(data)
 
