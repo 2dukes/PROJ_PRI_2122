@@ -4,29 +4,64 @@ from pygooglenews import GoogleNews
 # pip3 install newspaper3k
 from newspaper import Article
 
-import sys
+import requests
+import pandas as pd
 
 gn = GoogleNews()
 
-def getNewsLink(coin_name, index = 0):
+def getNewsLink(coin_name):
     search = gn.search(coin_name)
-    return search['entries'][index]['link']
+    return search['entries'][0]['link'] if len(search['entries'] > 0) else ""
 
-current_index = 0
 
-def getNewsText(coin_name, index = 0):
-    global current_index
-    news_link = getNewsLink(coin_name, index)
+def getNews(coin_name):
+    news_link = getNewsLink(coin_name)
     article = Article(news_link)
     article.download()
     article.parse()
 
-    text = article.text
-    if (len(text) < 500):
-        current_index += 1
-        getNewsText(coin_name, current_index)
-
     return {"title": article.title, "text": article.text}
 
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)
 
-print(getNewsText(sys.argv[1])["text"])
+def getCoinIds():
+    r = requests.get("https://api.coingecko.com/api/v3/coins/list")
+    if r.status_code != 200:
+        print("Error while getting coin ids")
+        return
+    data = r.json()
+
+    ids = []
+    for obj in data:
+        id = obj["id"]
+        if (not has_numbers(id)):
+            ids.append(obj["id"])
+
+    return ids
+
+
+coins_ids = getCoinIds()
+
+rows = []
+
+count = 0
+
+for id in coins_ids:
+    count += 1
+    progress = count / len(coins_ids) * 100
+
+    print(str(progress) + "%")
+
+
+    news_data = getNews(id)
+
+    data = {"id": id, "news_title": news_data["title"], "news_text": news_data["text"]}
+
+    rows.append(data)
+
+# create dataframe
+df = pd.json_normalize(rows)
+
+df.to_csv('news.csv', index=False, encoding='utf-8')
+
