@@ -6,12 +6,13 @@ from newspaper import Article
 
 import requests
 import pandas as pd
+import time
 
 gn = GoogleNews()
 
 def getNewsLink(coin_name):
     search = gn.search(coin_name)
-    return search['entries'][0]['link'] if len(search['entries'] > 0) else ""
+    return search['entries'][0]['link'] if "link" in search["entries"][0] else ""
 
 
 def getNews(coin_name):
@@ -48,6 +49,7 @@ rows = []
 count = 0
 
 for id in coins_ids:
+    print(f"Current id: {id}")
     count += 1
     progress = count / len(coins_ids) * 100
 
