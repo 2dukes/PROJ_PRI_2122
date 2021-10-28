@@ -4,17 +4,29 @@ from pygooglenews import GoogleNews
 # pip3 install newspaper3k
 from newspaper import Article
 
+import sys
+
 gn = GoogleNews()
 
-def getNewsLink(coin_name):
+def getNewsLink(coin_name, index = 0):
     search = gn.search(coin_name)
-    return search['entries'][0]['link']
+    return search['entries'][index]['link']
 
-def getNewsText(coin_name):
-    news_link = getNewsLink(coin_name)
+current_index = 0
+
+def getNewsText(coin_name, index = 0):
+    global current_index
+    news_link = getNewsLink(coin_name, index)
     article = Article(news_link)
     article.download()
     article.parse()
+
+    text = article.text
+    if (len(text) < 500):
+        current_index += 1
+        getNewsText(coin_name, current_index)
+
     return {"title": article.title, "text": article.text}
 
-print(getNewsText("ethereum")["text"])
+
+print(getNewsText(sys.argv[1])["text"])
