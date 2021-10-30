@@ -12,20 +12,21 @@ class NewsSpider(scrapy.Spider):
   name = "news"
   allowed_urls = ["https://coinmarketcap.com/"]
 
-  # start_urls = coinURLs
-  start_urls = [
-    'https://coinmarketcap.com/currencies/bitcoin/news', 
-    'https://coinmarketcap.com/currencies/ethereum/news', 
-    'https://coinmarketcap.com/currencies/calypso/news/'
-  ]
+  start_urls = coinURLs
+  # start_urls = [
+  #   'https://coinmarketcap.com/currencies/forefront/news/',
+  #   'https://coinmarketcap.com/currencies/decred/news/',
+  #   'https://coinmarketcap.com/currencies/nftlootbox/news/',
+  #   'https://coinmarketcap.com/currencies/sun-token/news/'
+  # ] 
 
   def parse(self, response):
     numberOfNews = 3
     selectors = response.css('.svowul-5 .svowul-0')[:numberOfNews]
     coinIdSearch = re.search('https://coinmarketcap.com/currencies/(.*?)/news', response.url)
-    coinId = coinIdSearch.group(1)
-
-    if response.css('button.active span::text').get() == 'Latest News':
+  
+    if coinIdSearch and response.css('button.active span::text').get() == 'Latest News':
+      coinId = coinIdSearch.group(1)
       yield {
         'id': coinId,
         'headers': [re.sub(u"(\u2018|\u2019)", "'", header) for header in selectors.css('.svowul-2 h3::text').getall()],

@@ -89,8 +89,8 @@ class NewsDownloaderMiddleware:
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
-        time.sleep(3)
         self.driver.get(request.url)
+        time.sleep(4)
         request.meta['driver'] = self.driver
         body = str.encode(self.driver.page_source)
         return HtmlResponse(self.driver.current_url, body=body, encoding='utf-8', request=request)
