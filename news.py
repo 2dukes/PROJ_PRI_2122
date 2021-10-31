@@ -65,5 +65,5 @@ for id in coins_ids:
 # create dataframe
 df = pd.json_normalize(rows)
 
-df.to_csv('news.csv', index=False, encoding='utf-8')
+df.to_csv('./files/googleNews.csv', index=False, encoding='utf-8')
 

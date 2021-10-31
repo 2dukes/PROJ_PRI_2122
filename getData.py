@@ -49,7 +49,6 @@ def getData(coin_id):
 
 
 coins_ids = getCoinIds()
-
 progress = 0
 
 for id in coins_ids:
@@ -60,5 +59,4 @@ for id in coins_ids:
 
 # create dataframe
 df = pd.json_normalize(rows)
-
-df.to_csv('coins.csv', index=False, encoding='utf-8')
+df.to_csv('./files/coins.csv', index=False, encoding='utf-8')

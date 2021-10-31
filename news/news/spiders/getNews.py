@@ -33,9 +33,6 @@ class NewsSpider(scrapy.Spider):
         'descriptions': [re.sub(u"(\u2018|\u2019)", "'", description) for description in selectors.css('.svowul-2 p::text').re(r'(^.*\.(?=\s)|^.*\.$)')],
         'urls': [ "https://coinmarketcap.com" + url if url[0] == "/" else url for url in selectors.css('::attr(href)').getall()]
       }
-      
-    # with open("response.html", "wb") as f:
-    #   f.write(response.css('h3::text').getall())
 
 def has_numbers(inputString):
   return any(char.isdigit() for char in inputString)
@@ -53,4 +50,3 @@ def getCoinNewsURL():
       coinURLs.append(f"https://coinmarketcap.com/currencies/{coinId}/news")
 
 getCoinNewsURL()
-# print(coinURLs[:10])
