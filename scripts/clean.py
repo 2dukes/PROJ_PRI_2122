@@ -1,6 +1,4 @@
-from typing import Text
 import pandas as pd
-import unicodedata
 
 coins = pd.read_csv("files/coins_news.csv")
 
