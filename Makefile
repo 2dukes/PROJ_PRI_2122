@@ -1,10 +1,12 @@
-.PHONY: merge clean-data stats
+.PHONY: stats
 
-merge:
+all: ./files/clean_coins.csv
+
+./files/coins_news.csv:
 	@echo "Merging coins.csv with news.csv."
 	python3 scripts/merge.py
 
-clean-data:
+./files/clean_coins.csv: ./files/coins_news.csv
 	@echo "Cleaning Dataset..."
 	python3 scripts/clean.py
 
