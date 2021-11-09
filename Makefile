@@ -22,3 +22,6 @@ stats-img: files/coins.csv files/news.csv
 stats: files/coins.csv files/news.csv
 	@echo "Opening Notebook with Dataset Statistics..."
 	jupyter notebook Statistics.ipynb
+
+clean:
+	rm files/coins_news.csv files/clean_coins.csv
