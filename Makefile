@@ -1,5 +1,4 @@
-.PHONY: stats stats-img install-depend
-
+.PHONY: clean stats stats-img install-depend
 
 all: files/clean_coins.csv
 
