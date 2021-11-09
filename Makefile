@@ -1,15 +1,18 @@
-.PHONY: merge clean-data stats
+.PHONY: stats stats-img install-depend
 
-install-depend:
-	pip install pandas seaborn numpy matplotlib requests
 
-merge: files/coins.csv files/news.csv
+all: files/clean_coins.csv
+
+files/coins_news.csv: files/coins.csv files/news.csv
 	@echo "Merging coins.csv with news.csv."
 	python3 scripts/merge.py
 
-clean-data: files/coins_news.csv
+files/clean_coins.csv: files/coins_news.csv
 	@echo "Cleaning Dataset..."
 	python3 scripts/clean.py
+
+install-depend:
+	pip install pandas seaborn numpy matplotlib requests
 
 stats-img: files/coins.csv files/news.csv
 	@echo "Generating images used for statistics, this will take a while..."
