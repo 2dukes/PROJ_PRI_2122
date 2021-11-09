@@ -1,5 +1,8 @@
 .PHONY: merge clean-data stats
 
+install-depend:
+	pip install pandas seaborn numpy matplotlib requests
+
 merge: files/coins.csv files/news.csv
 	@echo "Merging coins.csv with news.csv."
 	python3 scripts/merge.py
