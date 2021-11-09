@@ -12,7 +12,7 @@ files/clean_coins.csv: files/coins_news.csv
 	python3 scripts/clean.py
 
 install-depend:
-	pip install pandas seaborn numpy matplotlib requests
+	pip install pandas seaborn numpy matplotlib requests notebook
 
 stats-img: files/coins.csv files/news.csv
 	@echo "Generating images used for statistics, this will take a while..."
