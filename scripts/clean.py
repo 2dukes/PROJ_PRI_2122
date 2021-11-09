@@ -16,4 +16,4 @@ coins.blockchain_site = coins.blockchain_site.apply(lambda x: "" if str(x) == "[
 coins.homepage_link = coins.homepage_link.apply(lambda x: "" if str(x) == "[]" else str(x))
 
 # Save to file
-coins.to_csv("files/clean_coins.csv")
+coins.to_csv("files/clean_coins.csv", index=False)

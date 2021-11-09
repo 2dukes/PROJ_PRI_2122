@@ -19,7 +19,7 @@ stats-img: files/coins.csv files/news.csv
 	nbterm --run Statistics.ipynb
 	rm Statistics_run.ipynb
 
-stats: files/coins.csv files/news.csv
+stats: files/coins.csv files/news.csv files/clean_coins.csv
 	@echo "Opening Notebook with Dataset Statistics..."
 	jupyter notebook Statistics.ipynb
 
