@@ -11,5 +11,5 @@ news.to_csv('./files/news.csv', index=False, encoding='utf-8')
 
 coins = pd.read_csv("files/coins.csv")
 
-coins_news = pd.merge(coins, news, on="id", how="outer")
+coins_news = pd.merge(coins, news, on="id", how="left")
 coins_news.to_csv("files/coins_news.csv", index=False)
