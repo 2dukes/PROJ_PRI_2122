@@ -1,5 +1,4 @@
-.PHONY: stats stats-img install-depend
-
+.PHONY: clean stats stats-img install-depend
 
 all: files/clean_coins.csv
 
@@ -14,12 +13,12 @@ files/clean_coins.csv: files/coins_news.csv
 install-depend:
 	pip install pandas seaborn numpy matplotlib requests notebook missingno
 
-stats-img: files/coins.csv files/news.csv
+stats-img: files/clean_coins.csv
 	@echo "Generating images used for statistics, this will take a while..."
 	nbterm --run Statistics.ipynb
 	rm Statistics_run.ipynb
 
-stats: files/coins.csv files/news.csv files/clean_coins.csv
+stats: files/clean_coins.csv
 	@echo "Opening Notebook with Dataset Statistics..."
 	jupyter notebook Statistics.ipynb
 
