@@ -16,7 +16,7 @@ coins.blockchain_site = coins.blockchain_site.apply(lambda x: "" if str(x) == "[
 coins.homepage_link = coins.homepage_link.apply(lambda x: "" if str(x) == "[]" else str(x))
 
 # Renaming some columns which had confusing names
-coins.rename(columns={"headers": "news_titles", "descriptions": "news", "urls": "news_urls"}, inplace=True)
+coins.rename(columns={"headers": "news_titles", "descriptions": "news_articles", "urls": "news_urls"}, inplace=True)
 
 # Save to file
 coins.to_csv("files/clean_coins.csv", index=False)
