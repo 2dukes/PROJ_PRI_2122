@@ -3,3 +3,4 @@ data/*
 latex/*
 files/clean_coins.csv
 files/coins_news.csv
+**/__pycache__/**
