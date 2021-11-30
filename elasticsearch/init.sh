@@ -1,8 +1,72 @@
 #!/bin/bash
 
 # Specify mappings
-curl -XPUT "http://localhost:9200/cryptos" -H 'Content-Type: application/json' -d'
+curl -XPUT "http://es01-test:9200/cryptos" -H 'Content-Type: application/json' -d'
 {
+  "settings": {
+    "analysis": {
+      "char_filter": {
+        "remove_comma_number": {
+          "type": "pattern_replace",
+          "pattern": "(?<=\\d),(?=\\d)",
+          "replacement": ""
+        },
+        "swap_dollar_symbol": {
+          "type": "pattern_replace",
+          "pattern": "(\\$)(\\d+)",
+          "replacement": "$2$1"
+        },
+        "add_usd_word": {
+          "type": "pattern_replace",
+          "pattern": "(?:(\\d+)\\$)",
+          "replacement": "$1 usd"
+        },
+        "remove_dollar_symbol": {
+          "type": "pattern_replace",
+          "pattern": "\\$([A-Za-z]+)",
+          "replacement": "$1"
+        },
+        "add_percentage_word": {
+          "type": "pattern_replace",
+          "pattern": "(\\d+)\\%",
+          "replacement": "$1 percent"
+        },
+        "add_times_word": {
+          "type": "pattern_replace",
+          "pattern": "(\\d+)[xX]",
+          "replacement": "$1 times"
+        }
+      },
+      "filter": {
+        "synonym": {
+          "type": "synonym",
+          "synonyms": [
+            "dollar, usd"
+          ]
+        }
+      },
+      "analyzer": {
+        "my_analyzer": {
+          "char_filter": [
+            "html_strip",
+            "remove_comma_number",
+            "swap_dollar_symbol",
+            "add_usd_word",
+            "remove_dollar_symbol",
+            "add_percentage_word",
+            "add_times_word"
+          ],
+          "tokenizer": "uax_url_email",
+          "filter": [
+            "lowercase",
+            "synonym",
+            "stop",
+            "stemmer"
+          ]
+        }
+      }
+    }
+  },
   "mappings": {
     "properties": {
       "id":  { "type": "text" },
@@ -13,7 +77,7 @@ curl -XPUT "http://localhost:9200/cryptos" -H 'Content-Type: application/json' -
       "developer_score": { "type": "float" },
       "community_score": { "type": "float" },
       "liquidity_score": { "type": "float" },
-      "description":  { "type": "text" },
+      "description":  { "type": "text", "analyzer": "my_analyzer" },
       "homepage_link": { "type": "keyword" },
       "blockchain_site": { "type": "keyword" },
       "subreddit_url": { "type": "keyword" },
@@ -26,9 +90,9 @@ curl -XPUT "http://localhost:9200/cryptos" -H 'Content-Type: application/json' -
       "price_change_percentage_1y": { "type": "double" },
       "price_change_percentage_30d": { "type": "double" },
       "price_change_percentage_7d": { "type": "double" },
-      "news_titles":  { "type": "text" },
-      "news_articles":  { "type": "text" },
-      "news_urls":  { "type": "text" }
+      "news_titles":  { "type": "text", "analyzer": "my_analyzer" },
+      "news_articles":  { "type": "text", "analyzer": "my_analyzer" },
+      "news_urls":  { "type": "keyword" }
     }
   }
 }'
