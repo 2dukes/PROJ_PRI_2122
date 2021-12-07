@@ -1,7 +1,7 @@
 import json
 
 jsonFilePath = "files/clean_coins_ndjson.json"
-resultFilePath = "files/final_json.json"
+resultFilePath = "elasticsearch/final_json.json"
 
 # { "index": { "_id": 200 } }
 

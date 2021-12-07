@@ -28,7 +28,7 @@ GET /cryptos/_search
                 },
                 {
                     "match": {
-                        "description": "fan tokens football soccer"
+                        "description": "fan tokens soccer"
                     }
                 }
             ]
