@@ -4,6 +4,7 @@ import ast
 
 def toJson(csvFilePath, jsonFilePath):
     jsonArray = []
+    all_urls = []
     with open(csvFilePath, encoding="utf-8") as csvFile:
         csvReader = csv.DictReader(csvFile)
 
@@ -42,8 +43,12 @@ def toJson(csvFilePath, jsonFilePath):
                     current_new["title"] = titles[i]
                     current_new["article"] = articles[i]
                     current_new["url"] = urls[i]
-                                    
-                    current_news.append(current_new)
+                           
+                    if current_new["url"] not in all_urls:    
+                        current_news.append(current_new) 
+                        all_urls.append(current_new["url"])
+            
+            
             
             row["news"] = current_news
 
