@@ -69,7 +69,7 @@ df = pd.DataFrame([['Metric','Value']] +
     ]
 )
 
-with open('results.tex','w') as tf:
+with open(f'results/results{query_num}.tex','w') as tf:
     tf.write(df.to_latex())
 
 ### PART 3
@@ -112,6 +112,9 @@ for idx, step in enumerate(recall_values):
         else:
             precision_recall_match[step] = precision_recall_match[recall_values[idx+1]]
 
+# print(precision_recall_match)
+# print(precision_values)
+
 disp = PrecisionRecallDisplay([precision_recall_match.get(r) for r in recall_values], recall_values)
 disp.plot()
-plt.savefig('precision_recall.pdf')
+plt.savefig(f'results/precision_recall{query_num}.pdf')
