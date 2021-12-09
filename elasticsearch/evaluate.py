@@ -52,13 +52,18 @@ def p3(results, relevant, n=3):
     """Precision at N"""
     return len([doc for doc in results[:n] if doc['_source']['id'] in relevant])/n
 
+@metric
+def f1(results, relevant):
+    return (2 * ap(results, relevant) * p3(results, relevant)) / (ap(results, relevant) + p3(results, relevant))
+
 def calculate_metric(key, results, relevant):
     return metrics[key](results, relevant)
 
 # Define metrics to be calculated
 evaluation_metrics = {
     'ap': 'Average Precision',
-    'p3': 'Precision at 3 (P@3)'
+    'p3': 'Precision at 3 (P@3)',
+    'f1': 'F1 Measure'
 }
 
 # Calculate all metrics and export results as LaTeX table
