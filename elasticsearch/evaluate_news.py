@@ -25,7 +25,11 @@ query_json = json.loads(file_string)
 relevant = list(map(lambda el: el.strip(), open(QRELS_FILE).readlines()))
 # Get query results from Solr instance
 
-results = requests.get(QUERY_URL, json=query_json).json()['hits']['hits']
+outer_results = requests.get(QUERY_URL, json=query_json).json()['hits']['hits']
+results = []
+for coin in outer_results:
+    for new in coin['inner_hits']['news']['hits']['hits']:
+        results.append(new)
 
 ### PART 2
 
@@ -41,7 +45,7 @@ def ap(results, relevant):
         len([
             doc 
             for doc in results[:idx]
-            if doc['_source']['id'] in relevant
+            if doc['_source']['url'] in relevant
         ]) / idx 
         for idx in range(1, len(results))
     ]
@@ -50,7 +54,7 @@ def ap(results, relevant):
 @metric
 def p3(results, relevant, n=3):
     """Precision at N"""
-    return len([doc for doc in results[:n] if doc['_source']['id'] in relevant])/n
+    return len([doc for doc in results[:n] if doc['_source']['url'] in relevant])/n
 
 def calculate_metric(key, results, relevant):
     return metrics[key](results, relevant)
@@ -80,7 +84,7 @@ precision_values = [
     len([
         doc 
         for doc in results[:idx]
-        if doc['_source']['id'] in relevant
+        if doc['_source']['url'] in relevant
     ]) / idx 
     for idx, _ in enumerate(results, start=1)
 ]
@@ -88,7 +92,7 @@ precision_values = [
 recall_values = [
     len([
         doc for doc in results[:idx]
-        if doc['_source']['id'] in relevant
+        if doc['_source']['url'] in relevant
     ]) / len(relevant)
     for idx, _ in enumerate(results, start=1)
 ]
