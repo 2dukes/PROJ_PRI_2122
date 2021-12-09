@@ -96,7 +96,7 @@ curl -XPUT "http://localhost:9200/cryptos" -H 'Content-Type: application/json' -
     "mappings": {
         "properties": {
             "id":  { "type": "text" },
-            "categories":  { "type": "text"},
+            "categories":  { "type": "text" },
             "block_time_in_minutes": { "type": "integer" },
             "hashing_algorithm": { "type": "text", "analyzer": "my_analyzer",
                 "fields": {
@@ -110,11 +110,11 @@ curl -XPUT "http://localhost:9200/cryptos" -H 'Content-Type: application/json' -
             "community_score": { "type": "float" },
             "liquidity_score": { "type": "float" },
             "description":  { "type": "text", "analyzer": "my_analyzer" },
-            "homepage_link": { "type": "keyword" },
-            "blockchain_site": { "type": "keyword" },
-            "subreddit_url": { "type": "keyword" },
-            "github": { "type": "keyword" },
-            "image_url": { "type": "keyword" },
+            "homepage_link": { "type": "keyword", "index": false },
+            "blockchain_site": { "type": "keyword", "index": false },
+            "subreddit_url": { "type": "keyword", "index": false },
+            "github": { "type": "keyword", "index": false },
+            "image_url": { "type": "keyword", "index": false },
             "all_time_high(usd)": { "type": "double" },
             "all_time_high_date": { "type": "date" },
             "market_cap": { "type": "double" },
@@ -127,7 +127,7 @@ curl -XPUT "http://localhost:9200/cryptos" -H 'Content-Type: application/json' -
                 "properties": {
                     "title": { "type": "text", "analyzer": "my_analyzer" },
                     "article": { "type": "text", "analyzer": "my_analyzer" },
-                    "url": { "type": "keyword" }
+                    "url": { "type": "keyword", "index": false }
                 }
             }
         }
