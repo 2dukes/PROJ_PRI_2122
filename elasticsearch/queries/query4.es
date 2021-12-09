@@ -1,6 +1,7 @@
 GET /cryptos/_search
 {
     "_source": false,
+    "min_score": 25,
     "query": {
         "nested": {
             "path": "news",
@@ -46,8 +47,8 @@ GET /cryptos/_search
                                 "query": "bitcoin",
                                 "type": "most_fields",
                                 "fields": [
-                                    "news.title^5",
-                                    "news.article^3"
+                                    "news.title",
+                                    "news.article"
                                 ]
                             }
                         }
