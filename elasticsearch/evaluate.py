@@ -8,11 +8,18 @@ import requests
 import pandas as pd
 import sys
 
-QRELS_FILE = "information_systems_qrels.txt"
-QUERY_URL = "http://localhost:9200/courses/_search"
-QUERY_FILE = sys.argv[1]
+query_num = sys.argv[1]
 
-query_json = json.load(open(QUERY_FILE))
+QRELS_FILE = f"queries/query{query_num}-relevant.txt"
+QUERY_URL = "http://localhost:9200/cryptos/_search"
+QUERY_FILE = f"queries/query{query_num}.es"
+
+file_string = ""
+with open(QUERY_FILE, "r") as query_file:
+    file_string = "".join(query_file.read().splitlines(True)[1:])
+    
+
+query_json = json.loads(file_string)
 
 # Read qrels to extract relevant documents
 relevant = list(map(lambda el: el.strip(), open(QRELS_FILE).readlines()))
