@@ -31,6 +31,24 @@ for coin in outer_results:
     for new in coin['inner_hits']['news']['hits']['hits']:
         results.append(new)
 
+# Calculate precision and recall values as we move down the ranked list
+precision_values = [
+    len([
+        doc 
+        for doc in results[:idx]
+        if doc['_source']['url'] in relevant
+    ]) / idx 
+    for idx, _ in enumerate(results, start=1)
+]
+
+recall_values = [
+    len([
+        doc for doc in results[:idx]
+        if doc['_source']['url'] in relevant
+    ]) / len(relevant)
+    for idx, _ in enumerate(results, start=1)
+]
+
 ### PART 2
 
 # METRICS TABLE
@@ -57,8 +75,18 @@ def p3(results, relevant, n=3):
     return len([doc for doc in results[:n] if doc['_source']['url'] in relevant])/n
 
 @metric
-def f1(results, relevant):
-    return (2 * ap(results, relevant) * p3(results, relevant)) / (ap(results, relevant) + p3(results, relevant))
+def f1(_, __):
+    precision = precision_values[-1]
+    recall = recall_values[-1]
+    return (2 * precision * recall) / (precision +  recall)
+
+@metric
+def p(_, __):
+    return precision_values[-1]
+
+@metric
+def r(_, __):
+    return recall_values[-1]
 
 def calculate_metric(key, results, relevant):
     return metrics[key](results, relevant)
@@ -67,6 +95,8 @@ def calculate_metric(key, results, relevant):
 evaluation_metrics = {
     'ap': 'Average Precision',
     'p3': 'Precision at 3 (P@3)',
+    'p' : 'Precision',
+    'r' : 'Recall',
     'f1': 'F1 Measure'
 }
 
@@ -84,29 +114,6 @@ with open(f'results/results{query_num}.tex','w') as tf:
 ### PART 3
 
 # PRECISION-RECALL CURVE
-# Calculate precision and recall values as we move down the ranked list
-precision_values = [
-    len([
-        doc 
-        for doc in results[:idx]
-        if doc['_source']['url'] in relevant
-    ]) / idx 
-    for idx, _ in enumerate(results, start=1)
-]
-
-recall_values = [
-    len([
-        doc for doc in results[:idx]
-        if doc['_source']['url'] in relevant
-    ]) / len(relevant)
-    for idx, _ in enumerate(results, start=1)
-]
-
-# fscore_values = [
-#     2 * ((precision * recall)/(precision + recall))
-#     for precision, recall in zip(precision_values, recall_values) 
-# ]
-
 precision_recall_match = {k: v for k,v in zip(recall_values, precision_values)}
 
 # Extend recall_values to include traditional steps for a better curve (0.1, 0.2 ...)
@@ -121,9 +128,8 @@ for idx, step in enumerate(recall_values):
         else:
             precision_recall_match[step] = precision_recall_match[recall_values[idx+1]]
 
-# print(precision_recall_match)
-# print(precision_values)
-
 disp = PrecisionRecallDisplay([precision_recall_match.get(r) for r in recall_values], recall_values)
 disp.plot()
+disp.ax_.set_title(f"Query {query_num} Precision-Recall Curve")
+
 plt.savefig(f'results/precision_recall{query_num}.pdf')
