@@ -17,7 +17,7 @@ GET /cryptos/_search
             {
               "range": {
                   "current_price": {
-                    "gt": 0
+                    "lt": 1
                   }
               }
             },
