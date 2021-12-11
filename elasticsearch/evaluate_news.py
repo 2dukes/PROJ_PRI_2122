@@ -133,3 +133,4 @@ disp.plot()
 disp.ax_.set_title(f"Query {query_num} Precision-Recall Curve")
 
 plt.savefig(f'results/precision_recall{query_num}.pdf')
+plt.savefig(f'results/precision_recall{query_num}.png')

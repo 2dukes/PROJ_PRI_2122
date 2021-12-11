@@ -126,4 +126,5 @@ for idx, step in enumerate(recall_values):
 disp = PrecisionRecallDisplay([precision_recall_match.get(r) for r in recall_values], recall_values)
 disp.plot()
 disp.ax_.set_title(f"Query {query_num} Precision-Recall Curve")
+plt.savefig(f'results/precision_recall{query_num}.png')
 plt.savefig(f'results/precision_recall{query_num}.pdf')
