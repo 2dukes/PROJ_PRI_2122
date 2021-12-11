@@ -2,10 +2,8 @@ GET /cryptos/_search
 {
     "_source": [
         "id",
-        "category",
-        "description",
-        "news_titles",
-        "news_articles"
+        "categories",
+        "description"
     ],
     "query": {
         "bool": {
