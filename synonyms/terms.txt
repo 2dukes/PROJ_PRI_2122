@@ -1,0 +1,1 @@
+Coin,Token,Mining,Hash,Algorithm,Value,Price,Time,Blockchain,Decentralization,Bank,Ledger,Digital,Electronic,Proof-of-stake,Proof-of-work,Delegated-Proof-of-stake,Proof-of-history,Staking,Node,Money,Asset,Exchange,Purchase,Chip,Transaction,Finance,Legal,Security,Anonimity
