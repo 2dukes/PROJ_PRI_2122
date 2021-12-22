@@ -1,18 +1,14 @@
 import React from "react";
-
-import { Results, SearchBox } from "@elastic/react-search-ui";
-import { Layout } from "@elastic/react-search-ui-views";
+import { Link } from "react-router-dom";
 
 const SearchResultsPage = () => {
     return (
-        <div className="App">
-            <Layout
-                header={<SearchBox />}
-                bodyContent={<Results titleField="title" urlField="nps_link" />}
-            />
+        <div>
+            <h1>Search Results</h1>
+            <p>Search Results Page</p>
+            <Link to="/crypto/438">Crypto 438</Link>
         </div>
     );
 };
 
 export default SearchResultsPage;
-

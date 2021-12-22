@@ -1,25 +1,18 @@
-import { Client } from "@elastic/elasticsearch";
-
 const API_HOSTNAME = "http://localhost:9200";
 
-const client = new Client({ node: API_HOSTNAME });
-
 export const getCrypto = async (coinId) => {
-    // try {
+    try {
+        const res = await fetch(`${API_HOSTNAME}/cryptos/_doc/${coinId}`, {
+            method: "GET",
+        });
+        const json = await res.json();
 
-    //     const res = client.asyncSearch.get({
-    //         id: coinId,
-    //     })
+        if (!res.ok) {
+            throw json.errors;
+        }
 
-    //     const json = await res.json();
-
-    //     if (!res.ok) {
-    //         throw json.errors;
-    //     }
-
-    //     return json;
-
-    // } catch (error) {
-    //     throw error;
-    // }
-}
+        return json;
+    } catch (error) {
+        throw error;
+    }
+};

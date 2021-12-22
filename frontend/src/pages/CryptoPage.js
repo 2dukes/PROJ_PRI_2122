@@ -1,28 +1,27 @@
-import React , {useEffect, useState} from 'react';
-
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { getCrypto } from '../services/getCrypto';
+import { getCrypto } from "../services/getCrypto";
 
 const CryptoPage = () => {
+    const { id } = useParams();
+    const [coin, setCoin] = useState(null);
 
-    // const { id } = useParams();
-    // const [coin, setCoin] = useState(null);
+    useEffect(() => {
+        getCrypto(id)
+            .then((data) => {
+                setCoin(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, [id]);
 
-    // useEffect(() => {
-        
-    //     const data = getCrypto(id);
-    //     setCoin(coin => data);
-
-    //     console.log(data)
-        
-    // }, [id]);
-
-    // console.log(coin);
+    console.log(coin);
 
     return (
         <div>
-            Crypto
+            <h1>{coin?._source.id}</h1>
         </div>
     );
 };
