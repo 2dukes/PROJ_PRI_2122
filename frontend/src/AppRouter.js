@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageLayout from "./components/Layout/PageLayout";
 import CryptoPage from "./pages/CryptoPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
@@ -21,7 +17,7 @@ const AppRouter = () => (
                     </PageLayout>
                 }
             />
-                
+
             <Route
                 exact
                 path="/crypto/:id"
@@ -32,7 +28,6 @@ const AppRouter = () => (
                     </PageLayout>
                 }
             />
-            
         </Routes>
     </BrowserRouter>
 );
