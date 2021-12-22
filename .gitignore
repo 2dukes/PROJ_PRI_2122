@@ -5,4 +5,4 @@ files/clean_coins.csv
 files/coins_news.csv
 **/__pycache__/**
 .vscode
-**/__node_modules__/**
+**/node_modules/**
