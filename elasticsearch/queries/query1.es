@@ -32,7 +32,8 @@ GET /cryptos/_search
           "must_not": {
             "multi_match": {
               "query": "pos",
-              "fields": [ "hashing_algorithm", "description" ]
+              "fields": [ "hashing_algorithm", "description" ],
+              "fuzziness": "auto"
             }
           }
         }
@@ -41,7 +42,10 @@ GET /cryptos/_search
         {
           "filter": {
             "match": {
-              "description": "pow"
+              "description": {
+                "query": "pow",
+                "fuzziness": "auto"
+              }
             }
           }, 
           "weight": 10

@@ -16,16 +16,18 @@ GET /cryptos/_search
                   "fields": [
                     "news.title^5",
                     "news.article^3"
-                  ]
+                  ],
+                  "fuzziness": "auto"
                 }
             },
             {
               "multi_match": {
-                "query": "nft",
+                "query": "nat",
                 "fields": [
                   "news.title",
                   "news.article"
                 ],
+                "fuzziness": "auto",
                 "boost": 10
               }
             }

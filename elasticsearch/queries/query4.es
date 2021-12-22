@@ -17,6 +17,7 @@ GET /cryptos/_search
                                     "news.title^5",
                                     "news.article^3"
                                 ],
+                                "fuzziness": "auto",
                                 "boost": 5
                             }
                         },
@@ -28,6 +29,7 @@ GET /cryptos/_search
                                     "news.title^5",
                                     "news.article^3"
                                 ],
+                                "fuzziness": "auto",
                                 "boost": 3
                             }
                         },
@@ -39,6 +41,7 @@ GET /cryptos/_search
                                     "news.title^5",
                                     "news.article^3"
                                 ],
+                                "fuzziness": "auto", 
                                 "boost": 3
                             }
                         },
@@ -49,7 +52,8 @@ GET /cryptos/_search
                                 "fields": [
                                     "news.title",
                                     "news.article"
-                                ]
+                                ],
+                                "fuzziness": "auto" 
                             }
                         }
                     ]
