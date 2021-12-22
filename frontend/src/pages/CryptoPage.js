@@ -6,19 +6,19 @@ import { getCrypto } from '../services/getCrypto';
 
 const CryptoPage = () => {
 
-    const { id } = useParams();
-    const [coin, setCoin] = useState(null);
+    // const { id } = useParams();
+    // const [coin, setCoin] = useState(null);
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        const data = getCrypto(id);
-        setCoin(coin => data);
+    //     const data = getCrypto(id);
+    //     setCoin(coin => data);
 
-        console.log(data)
+    //     console.log(data)
         
-    }, [id]);
+    // }, [id]);
 
-    console.log(coin);
+    // console.log(coin);
 
     return (
         <div>

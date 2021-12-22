@@ -5,21 +5,21 @@ const API_HOSTNAME = "http://localhost:9200";
 const client = new Client({ node: API_HOSTNAME });
 
 export const getCrypto = async (coinId) => {
-    try {
+    // try {
 
-        const res = client.asyncSearch.get({
-            id: coinId,
-        })
+    //     const res = client.asyncSearch.get({
+    //         id: coinId,
+    //     })
 
-        const json = await res.json();
+    //     const json = await res.json();
 
-        if (!res.ok) {
-            throw json.errors;
-        }
+    //     if (!res.ok) {
+    //         throw json.errors;
+    //     }
 
-        return json;
+    //     return json;
 
-    } catch (error) {
-        throw error;
-    }
+    // } catch (error) {
+    //     throw error;
+    // }
 }
