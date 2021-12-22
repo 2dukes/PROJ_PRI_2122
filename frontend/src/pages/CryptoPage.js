@@ -1,26 +1,30 @@
 import React , {useEffect, useState} from 'react';
 
-const CryptoPage = ({ coinId }) => {
+import { useParams } from "react-router-dom";
 
+import { getCrypto } from '../services/getCrypto';
+
+const CryptoPage = () => {
+
+    const { id } = useParams();
     const [coin, setCoin] = useState(null);
 
     useEffect(() => {
-
         
+        const data = getCrypto(id);
+        setCoin(coin => data);
 
-    }, [coinId]);
-    
-    let searchData = {query: {ids: {values: [coinId]}}}
+        console.log(data)
+        
+    }, [id]);
 
-    const coin = fetch("http://localhost:9200/cryptos/_search", {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(searchData),
-    })
+    console.log(coin);
 
+    return (
+        <div>
+            Crypto
+        </div>
+    );
 };
 
 export default CryptoPage;
