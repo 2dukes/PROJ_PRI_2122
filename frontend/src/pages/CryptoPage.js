@@ -7,9 +7,10 @@ import { getCrypto } from "../services/getCrypto";
 import Crypto from "../components/Crypto";
 import { capitalizeString } from "../utils/utils";
 import MoreInfoItem from "../components/Crypto/MoreInfoItem";
+import CryptoLinkItem from "../components/Crypto/CryptoLinkItem";
 
 const PageBody = styled("div")({
-    margin: "6em 3em 6em",
+    margin: "6em 3em 0 3em",
 });
 
 const Loading = styled("div")({
@@ -48,7 +49,13 @@ const SectionDivider = styled(Divider)({
 
 const CryptoDescription = styled("div")({});
 
-const MoreInfo = styled("div")({});
+const MoreInfo = styled("div")({
+    marginBottom: "2em",
+});
+
+const CryptoLinks = styled("div")({
+    marginBottom: "2em",
+})
 
 const CryptoPage = () => {
     const { id } = useParams();
@@ -123,10 +130,38 @@ const CryptoPage = () => {
                     <Table sx={{ minWidth: 650 }}>
                         <TableBody>
                             <MoreInfoItem title="All Time High" content={crypto.all_time_high} />
+                            <MoreInfoItem title="All Time High Date" content={crypto.all_time_high_date} />
+                            <MoreInfoItem
+                                title="Block Time (Minutes)"
+                                content={crypto.block_time_in_minutes}
+                            />
+                            <MoreInfoItem title="Community Score" content={crypto.community_score} />
+                            <MoreInfoItem title="Developer Score" content={crypto.developer_score} />
+                            <MoreInfoItem title="Genesis Date" content={crypto.genesis_date} />
+                            <MoreInfoItem title="Hashing Algorithm" content={crypto.hashing_algorithm} />
+                            <MoreInfoItem title="Liquidity Score" content={crypto.liquidity_score} />
+                            <MoreInfoItem title="Market Capitalization" content={crypto.market_cap} />
                         </TableBody>
                     </Table>
                 </TableContainer>
             </MoreInfo>
+            <SectionDivider />
+            <CryptoLinks>
+                <h3>Useful Links</h3>
+                <TableContainer component={Paper}>
+                    <Table sx={{ minWidth: 650 }}>
+                        <TableBody>
+                            <CryptoLinkItem title="Blockchain Site" content={crypto.blockchain_site} />
+                            <CryptoLinkItem title="GitHub" content={crypto.github} />
+                            <CryptoLinkItem
+                                title="Homepage"
+                                content={crypto.homepage_link}
+                            />
+                            <CryptoLinkItem title="Subreddit" content={crypto.subreddit_url} />
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </CryptoLinks>
         </PageBody>
     );
 };

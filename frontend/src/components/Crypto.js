@@ -5,7 +5,7 @@ export default class Crypto {
         all_time_high_date,
         block_time_in_minutes,
         blockchain_site,
-        categories,
+        categories, // to add
         community_score,
         current_price,
         description,
@@ -17,10 +17,10 @@ export default class Crypto {
         image_url,
         liquidity_score,
         market_cap,
-        news,
-        price_change_percentage_1y,
-        price_change_percentage_7d,
-        price_change_percentage_30d,
+        news, // to add
+        price_change_percentage_1y, // to add
+        price_change_percentage_7d, // to add
+        price_change_percentage_30d, // to add
         subreddit_url,
     }) {
         this.id = id;
