@@ -22,8 +22,9 @@ for word in words.split(","):
         for definition in definitions:
             current_synonyms.extend(definition["synonyms"])
     for synonym in current_synonyms:
-        synonyms.append(f"\"{word}, {synonym}\",")
-    
+        if len(synonym.split(" ")) == 1:
+            synonyms.append(f"\"{word}, {synonym}\",")
+
 with open("synonyms/synonyms.txt", "w") as file:    
     for synonym in synonyms:
         synonym = synonym.replace("(", "")
