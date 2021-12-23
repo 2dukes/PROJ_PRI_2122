@@ -11,6 +11,8 @@ import CryptoLinkItem from "../components/Crypto/CryptoLinkItem";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
+    height: "80vh",
+    overflowY: "scroll"
 });
 
 const Loading = styled("div")({

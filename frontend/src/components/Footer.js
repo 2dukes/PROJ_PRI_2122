@@ -4,10 +4,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 const Footer = () => {
-    let windowHeight = window.outerHeight;
-
     return (
-        <AppBar position="absolute" color="primary" sx={{ top: windowHeight - 64 + "px" }}>            
+        <AppBar position="absolute" color="primary" sx={{ top: `calc(100vh - 64px)` }}>
             <Toolbar>
                 <Typography width="100%" textAlign="right">
                     © 2021 PRI
