@@ -10,7 +10,6 @@ synonyms = []
 for word in words.split(","):
     word = word.lower()
     url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
-    # url = f"https://api.dictionaryapi.dev/api/v2/entries/en/mountain"
     response = json.loads(requests.request("GET", url).text)
     try:
         meanings = response[0]["meanings"]
