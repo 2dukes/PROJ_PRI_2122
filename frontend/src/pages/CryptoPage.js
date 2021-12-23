@@ -12,7 +12,7 @@ import CryptoLinkItem from "../components/Crypto/CryptoLinkItem";
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
     height: "80vh",
-    overflowY: "scroll"
+    overflowY: "auto",
 });
 
 const Loading = styled("div")({
@@ -57,7 +57,7 @@ const MoreInfo = styled("div")({
 
 const CryptoLinks = styled("div")({
     marginBottom: "2em",
-})
+});
 
 const CryptoPage = () => {
     const { id } = useParams();
@@ -155,10 +155,7 @@ const CryptoPage = () => {
                         <TableBody>
                             <CryptoLinkItem title="Blockchain Site" content={crypto.blockchain_site} />
                             <CryptoLinkItem title="GitHub" content={crypto.github} />
-                            <CryptoLinkItem
-                                title="Homepage"
-                                content={crypto.homepage_link}
-                            />
+                            <CryptoLinkItem title="Homepage" content={crypto.homepage_link} />
                             <CryptoLinkItem title="Subreddit" content={crypto.subreddit_url} />
                         </TableBody>
                     </Table>
