@@ -1,12 +1,18 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { CircularProgress, Typography } from "@mui/material";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
 import NewsCard from "../components/News/NewsCard";
 import { styled } from "@mui/material/styles";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
-    height: "80vh",
-    overflowY: "auto",
+    height: "75vh",
+});
+
+const NewsContainer = styled("div")({
+    height: "80%",
+    overflowY: "auto"
 });
 
 const Loading = styled("div")({
@@ -27,6 +33,13 @@ const LoadingChild = styled("div")({
 });
 
 const NewsPage = ({ articles }) => {
+    const [currentPage, setPage] = useState(1);
+    const articlesPerPage = 3;
+    const numberPages = Math.ceil(articles.length / articlesPerPage);
+    const indexOfLastArticle = currentPage * articlesPerPage;
+    const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+    const selectedArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
+
     // return (
     //     <Loading>
     //         <LoadingChild>
@@ -36,16 +49,23 @@ const NewsPage = ({ articles }) => {
     //     </Loading>
     // );
 
-    // console.log(articles);
-
     return (
         <PageBody>
             <Typography variant="h3" textAlign="center" marginBottom="1em">
                 News
             </Typography>
-            {articles.map((article) => (
-                <NewsCard article={article} />
-            ))}
+            <NewsContainer>
+                {selectedArticles.map((selectedArticle) => (
+                    <NewsCard article={selectedArticle} />
+                ))}
+            </NewsContainer>
+            <Stack spacing={2} alignItems="center" marginTop="2em">
+                <Pagination
+                    count={numberPages}
+                    page={currentPage}
+                    onChange={(_, newPage) => setPage(newPage)}
+                />
+            </Stack>
         </PageBody>
     );
 

@@ -25,6 +25,31 @@ const AppRouter = () => {
                 "Binance.US has promoted its president Brian Shroder to CEO after the sudden exit of Brian Brooks two months ago.",
             url: "https://coinmarketcap.com/headlines/news/binance-us-promotes-president-to-ceo-in-the-wake-of-brooks-departure/",
         },
+        {
+            title: "China Crypto Ban: Country's largest crypto exchange suspends majority services today",
+            article: "The latest update in the Chinese crypto ban saw the largest crypto exchange platform, Huobi completely shut down futures, contracts, and other derivatives services for all Chinese users.",
+            url: "https://coinmarketcap.com/headlines/news/china-crypto-ban-countrys-largest-crypto-exchange-suspends-majority-services-today/"
+        },
+        {
+            title: "No, China isn't soliciting public opinion on whether to drop its bitcoin mining ban",
+            article: "China published a draft proposal relating to crypto mining last week — but the government is not soliciting public opinions to unban crypto mining, despite reports from media outlets and info shared on social media.",
+            url: "https://coinmarketcap.com/headlines/news/china-not-unban-bitcoin-mining/"
+        },
+        {
+            title: "PODCAST: Yellen fears crypto, Kazakhstan restricts miners, Epic courts NFTs",
+            article: "Listen to the most important stories in Bitcoin and crypto covered by our newsroom in the past week.",
+            url: "https://coinmarketcap.com/headlines/news/yellen-fears-crypto-kazakhstan-restricts-miners-epic-courts-nfts/"
+          },
+          {
+            title: "Epic Games Confirms Openness to Allow Blockchain Gaming",
+            article: "Epic Games latches onto Steam's ban of blockchain games and warms up to the industry.",
+            url: "https://www.bsc.news/post/epic-games-confirms-openness-to-allow-blockchain-gaming"
+          },
+          {
+            title: "Fortnite's Epic Games loves NFTs now that Steam rejected them entirely",
+            article: "Fortnite publisher Epic Games is totally open to NFTs now that Steam won't approve any games featuring blockchain-powered collectibles.",
+            url: "https://coinmarketcap.com/headlines/news/epic-games-nft-loves-steam-rejected-them-entirely-but-not-fortnite/"
+          }
     ];
 
     return (
