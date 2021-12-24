@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { CircularProgress, Typography } from "@mui/material";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -40,14 +40,15 @@ const NewsPage = ({ articles }) => {
     const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
     const selectedArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
 
-    // return (
-    //     <Loading>
-    //         <LoadingChild>
-    //             <CircularProgress sx={{ marginRight: "1em"}} />
-    //             <h1>Loading...</h1>
-    //         </LoadingChild>
-    //     </Loading>
-    // );
+    if(!articles) 
+        return (
+            <Loading>
+                <LoadingChild>
+                    <CircularProgress sx={{ marginRight: "1em"}} />
+                    <h1>Loading...</h1>
+                </LoadingChild>
+            </Loading>
+        );
 
     return (
         <PageBody>
@@ -68,13 +69,6 @@ const NewsPage = ({ articles }) => {
             </Stack>
         </PageBody>
     );
-
-    // return (
-    //     <PageBody>
-    //         <h1>News Page</h1><h1>News Page</h1><h1>News Page</h1><h1>News Page</h1><h1>News Page</h1>
-    //         <h1>News Page</h1><h1>News Page</h1><h1>News Page</h1><h1>News Page</h1><h1>News Page</h1><h1>News Page</h1><h1>News Page</h1>
-    //     </PageBody>
-    // );
 };
 
 export default NewsPage;
