@@ -14,7 +14,7 @@ const ArticleCard = styled(Card)({
 const NewsCard = ({ article }) => {
     return (
         <ArticleCard>
-            <CardActionArea href={article.url}>
+            <CardActionArea href={article.url} target="_blank" >
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {article.title}
