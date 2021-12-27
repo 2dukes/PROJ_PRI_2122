@@ -40,11 +40,11 @@ const NewsPage = ({ articles }) => {
     const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
     const selectedArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
 
-    if(!articles) 
+    if(articles)
         return (
             <Loading>
                 <LoadingChild>
-                    <CircularProgress sx={{ marginRight: "1em"}} />
+                    <CircularProgress />
                     <h1>Loading...</h1>
                 </LoadingChild>
             </Loading>
