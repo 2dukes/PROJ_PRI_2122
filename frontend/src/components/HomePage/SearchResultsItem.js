@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardActionArea, CardMedia, CardContent, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, Typography, Avatar } from "@mui/material";
+
+import { capitalizeString } from "../../utils/utils";
 
 const SearchResultsItem = ({ searchResultsCrypto }) => {
     return (
@@ -10,29 +12,26 @@ const SearchResultsItem = ({ searchResultsCrypto }) => {
                 component={CardActionArea}
                 style={{ textDecoration: "none" }}
             >
-                <CardMedia
-                    component="img"
-                    height="140"
-                    image={searchResultsCrypto.image_url}
-                    alt="Cryptocurrency logo"
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {searchResultsCrypto.name}
-                    </Typography>
-                    <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{
-                            // max number of lines (2)
-                            display: "-webkit-box",
-                            overflow: "hidden",
-                            WebkitBoxOrient: "vertical",
-                            WebkitLineClamp: 2,
-                        }}
-                    >
-                        {searchResultsCrypto.description}
-                    </Typography>
+                <CardContent sx={{ display: "flex", alignItems: "center" }}>
+                    <Avatar src={searchResultsCrypto.image_url} sx={{ marginRight: "1em" }} />
+                    <div>
+                        <Typography gutterBottom variant="h5" component="div">
+                            {capitalizeString(searchResultsCrypto.name)}
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{
+                                // max number of lines (2)
+                                display: "-webkit-box",
+                                overflow: "hidden",
+                                WebkitBoxOrient: "vertical",
+                                WebkitLineClamp: 2,
+                            }}
+                        >
+                            {searchResultsCrypto.description}
+                        </Typography>
+                    </div>
                 </CardContent>
             </Link>
         </Card>
