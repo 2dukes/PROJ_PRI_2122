@@ -18,11 +18,20 @@ const PageBody = styled("div")({
 });
 
 const Loading = styled("div")({
-    width: "95h",
+    position: "relative",
     height: "95vh",
-    justifyContent: "center",
-    alignItems: "center",
-    display: "flex",
+    textAlign: "center",
+});
+
+const LoadingChild = styled("div")({
+    position: "absolute",
+    height: "25%",
+    width: "25%",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    margin: "auto",
 });
 
 const CryptoHeader = styled("div")({
@@ -112,10 +121,10 @@ const CryptoPage = () => {
     if (crypto == null) {
         return (
             <Loading>
-                <div>
-                    <CircularProgress size="100px" />
+                <LoadingChild>
+                    <CircularProgress />
                     <h1>Loading...</h1>
-                </div>
+                </LoadingChild>
             </Loading>
         );
     }
