@@ -12,7 +12,7 @@ const PageBody = styled("div")({
 
 const NewsContainer = styled("div")({
     height: "80%",
-    overflowY: "auto"
+    overflowY: "auto",
 });
 
 const Loading = styled("div")({
@@ -40,7 +40,7 @@ const NewsPage = ({ articles }) => {
     const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
     const selectedArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
 
-    if(articles)
+    if (articles)
         return (
             <Loading>
                 <LoadingChild>
