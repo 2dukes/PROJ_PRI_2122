@@ -74,6 +74,8 @@ def p3(results, relevant, n=3):
 def f1(_, __):
     precision = precision_values[-1]
     recall = recall_values[-1]
+    if precision + recall == 0:
+        return 0
     return (2 * precision * recall) / (precision +  recall)
 
 @metric
