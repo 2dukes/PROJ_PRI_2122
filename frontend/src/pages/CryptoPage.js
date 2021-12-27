@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CircularProgress, Avatar, Divider, TableContainer, Table, TableBody, Paper } from "@mui/material";
+import { CircularProgress, Avatar, Divider, TableContainer, Table, TableBody, Paper, Stack } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { getCrypto } from "../services/getCrypto";
@@ -8,6 +8,8 @@ import Crypto from "../components/Crypto";
 import { capitalizeString } from "../utils/utils";
 import MoreInfoItem from "../components/Crypto/MoreInfoItem";
 import CryptoLinkItem from "../components/Crypto/CryptoLinkItem";
+import CryptoCategories from "../components/Crypto/CryptoCategories";
+import CryptoPriceChange from "../components/Crypto/CryptoPriceChange";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
@@ -37,13 +39,18 @@ const CryptoAvatar = styled(Avatar)({
     marginRight: "1em",
 });
 
+const CryptoPriceSection = styled("div")({
+    display: "flex",
+    alignItems: "center"
+});
+
 const CryptoPrice = styled("h2")({
-    margin: 0,
+    margin: "0 1em 0 0",
     "&::before": {
         content: "'$'",
     },
     fontWeight: "500",
-});
+})
 
 const SectionDivider = styled(Divider)({
     margin: "1em 0 1em",
@@ -119,7 +126,15 @@ const CryptoPage = () => {
                 <CryptoAvatar src={crypto.image_url} />
                 <CryptoName>{capitalizeString(crypto.id)}</CryptoName>
             </CryptoHeader>
-            <CryptoPrice>{crypto.current_price}</CryptoPrice>
+            <CryptoPriceSection>
+                <CryptoPrice>{crypto.current_price}</CryptoPrice>
+                <Stack direction="row" spacing={2} >
+                    <CryptoPriceChange timeFrame="7d" percentage={crypto.price_change_percentage_7d}/>
+                    <CryptoPriceChange timeFrame="30d" percentage={crypto.price_change_percentage_30d}/>
+                    <CryptoPriceChange timeFrame="1y" percentage={crypto.price_change_percentage_1y}/>
+                </Stack>
+            </CryptoPriceSection>
+            <CryptoCategories categories={crypto.categories} />
             <SectionDivider />
             <CryptoDescription>
                 <h3>Description</h3>
