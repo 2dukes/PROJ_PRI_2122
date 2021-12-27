@@ -40,7 +40,7 @@ const NewsPage = ({ articles }) => {
     const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
     const selectedArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
 
-    if(articles)
+    if(!articles)
         return (
             <Loading>
                 <LoadingChild>
