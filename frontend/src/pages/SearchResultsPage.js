@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import SelectWithSlider from "../components/Search/SelectWithSlider";
 import SelectWithInputs from "../components/Search/SelectWithInputs";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Divider, Typography, Switch } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
@@ -35,6 +35,7 @@ const RightBlock = styled("div")({
 });
 
 const SearchResultsPage = () => {
+    const [results, setResults] = useState([true, true]);
     const [blockTime, setBlockTime] = useState([0, 1]);
     const [scores, setScores] = useState([
         [0, 100],
@@ -126,10 +127,10 @@ const SearchResultsPage = () => {
                     <Typography color="gray">Results</Typography>
                     <FormGroup>
                         <FormControlLabel
-                            control={<Switch name="cryptos" defaultChecked />}
+                            control={<Switch name="cryptos" checked={results[0]} onChange={() => setResults(results => results = [!results[0], results[1]])}/>}
                             label="Cryptos"
                         />
-                        <FormControlLabel control={<Switch name="news" defaultChecked />} label="News" />
+                        <FormControlLabel control={<Switch name="news" checked={results[1]} onChange={() => setResults(results => results = [results[0], !results[1]])} />} label="News" />
                     </FormGroup>
                 </OptionDiv>
                 <OptionDiv>
