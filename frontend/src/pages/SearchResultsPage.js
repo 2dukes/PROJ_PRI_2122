@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import { Divider, Typography, Switch } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import TextInput from "../components/Search/TextInput";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 2em",
@@ -77,7 +78,7 @@ const SearchResultsPage = () => {
     const handleScoreLabelsChange = (idx) => (event) => {
         let auxScoreLabelValues = [...scoreLabelValues]
         auxScoreLabelValues[idx] = event.target.value
-        if(auxScoreLabelValues.length < 3)
+        if(auxScoreLabelValues.length < 3 && [...new Set(auxScoreLabelValues)].length === auxScoreLabelValues.length)
             setScoreLabels(auxScoreLabelValues);
     };
 
@@ -125,6 +126,32 @@ const SearchResultsPage = () => {
                         selectValues={scoreLabelValues}
                         onSelectChange={handleScoreLabelsChange}
                     />
+                </OptionDiv>
+                <OptionDiv>
+                    <Typography color="gray">Price Change (%)</Typography>
+                    <MinimumDistanceSlider
+                        // minValue={0}
+                        // maxValue={100}
+                        // hasSelect={true}
+                        // numScoreClicks={numScoreClicks}
+                        // onMoreClick={handleMoreScoreClick}
+                        // sliderValues={scores}
+                        // onSliderChange={handleScoreChange}
+                        // selectValues={scoreLabelValues}
+                        // onSelectChange={handleScoreLabelsChange}
+                    />
+                </OptionDiv>
+                <OptionDiv>
+                    <Typography color="gray">All Time High (USD)</Typography>
+                    <TextInput />
+                </OptionDiv>
+                <OptionDiv>
+                    <Typography color="gray">Market Cap</Typography>
+                    <TextInput />
+                </OptionDiv>
+                <OptionDiv>
+                    <Typography color="gray">Current Price</Typography>
+                    <TextInput />
                 </OptionDiv>
             </LeftBlock>
             <RightBlock />

@@ -40,7 +40,7 @@ const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, 
                                     value={selectValues[idx]}
                                     onChange={onSelectChange(idx)}
                                     inputProps={{ "aria-label": "Without label" }}
-                                    sx={{ height: "40px" }}
+                                    sx={{ height: "35px" }}
                                 >
                                     <MenuItem value={1}>Developer Score</MenuItem>
                                     <MenuItem value={2}>Community Score</MenuItem>
