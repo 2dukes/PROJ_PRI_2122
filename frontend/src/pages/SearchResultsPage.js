@@ -35,6 +35,7 @@ const RightBlock = styled("div")({
 const SearchResultsPage = () => {
     const [blockTime, setBlockTime] = useState([0, 1]);
     const [scores, setScores] = useState([[0, 100], [0, 100], [0, 100]]);
+    const [scoreLabelValues, setScoreLabels] = useState([1]);
     const [numScoreClicks, setNumScoreClicks] = useState(1);
 
     const handleBlockTimeChange = (event, newValue, activeThumb) => {
@@ -45,7 +46,18 @@ const SearchResultsPage = () => {
     };
 
     const handleMoreScoreClick = () => {
-        if (numScoreClicks < 3) setNumScoreClicks((numScoreClicks) => numScoreClicks + 1);
+        if (numScoreClicks < 3) {
+            let auxScoreLabelValues = [...scoreLabelValues]   
+              
+            for (let elem of [1, 2, 3]) {
+                if(!auxScoreLabelValues.includes(elem)) {
+                    auxScoreLabelValues.push(elem)
+                    setScoreLabels(auxScoreLabelValues);
+                    setNumScoreClicks((numScoreClicks) => numScoreClicks + 1);
+                    return 
+                }
+            }            
+        }
     };
 
     const handleScoreChange = (idx) => (event, newValue, activeThumb) => {
@@ -60,6 +72,13 @@ const SearchResultsPage = () => {
             auxScores[idx] = [scores[idx][0], Math.max(newValue[1], scores[idx][0] + 1)] 
             setScores(auxScores) 
         }
+    };
+
+    const handleScoreLabelsChange = (idx) => (event) => {
+        let auxScoreLabelValues = [...scoreLabelValues]
+        auxScoreLabelValues[idx] = event.target.value
+        if(auxScoreLabelValues.length < 3)
+            setScoreLabels(auxScoreLabelValues);
     };
 
     return (
@@ -103,16 +122,10 @@ const SearchResultsPage = () => {
                         onMoreClick={handleMoreScoreClick}
                         sliderValues={scores}
                         onSliderChange={handleScoreChange}
+                        selectValues={scoreLabelValues}
+                        onSelectChange={handleScoreLabelsChange}
                     />
                 </OptionDiv>
-                {/* <OptionDiv>                    
-                    <Typography color="gray">Community Score (%)</Typography>
-                    <MinimumDistanceSlider minValue={0} maxValue={100}/>
-                </OptionDiv>
-                <OptionDiv>                    
-                    <Typography color="gray">Liquidity Score (%)</Typography>
-                    <MinimumDistanceSlider minValue={0} maxValue={100}/>
-                </OptionDiv> */}
             </LeftBlock>
             <RightBlock />
         </PageBody>

@@ -19,13 +19,7 @@ const CustomFormControl = styled(FormControl)({
     }
 });
 
-const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, sliderValues, onMoreClick, onSliderChange }) => {    
-    const [score, setScore] = useState(1);
-
-    const handleOtherChange = (event) => {
-        setScore(event.target.value);
-    };
-
+const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, sliderValues, onMoreClick, onSliderChange, selectValues, onSelectChange }) => {    
     return (
         <Fragment>
             {hasSelect ? (
@@ -43,8 +37,8 @@ const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, 
                             />
                             <CustomFormControl>
                                 <Select
-                                    value={score}
-                                    onChange={handleOtherChange}
+                                    value={selectValues[idx]}
+                                    onChange={onSelectChange(idx)}
                                     inputProps={{ "aria-label": "Without label" }}
                                     sx={{ height: "40px" }}
                                 >
