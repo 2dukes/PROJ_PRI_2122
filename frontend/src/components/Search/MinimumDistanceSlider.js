@@ -4,10 +4,6 @@ import FormControl from "@mui/material/FormControl";
 import { styled } from "@mui/material/styles";
 import { Slider, Select, MenuItem, Stack, Button } from "@mui/material";
 
-function valuetext(value) {
-    return `${value}°C`;
-}
-
 const CustomSlider = styled(Slider)({
     '@media(max-width: 1536px)': {
         width: "100%",
@@ -23,22 +19,11 @@ const CustomFormControl = styled(FormControl)({
     }
 });
 
-const minDistance = 1;
-
-const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, onMoreClick }) => {    
+const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, sliderValues, onMoreClick, onSliderChange }) => {    
     const [score, setScore] = useState(1);
-    const [value1, setValue1] = useState([0, 1]);
 
     const handleOtherChange = (event) => {
         setScore(event.target.value);
-    };
-
-
-    const handleChange = (event, newValue, activeThumb) => {
-        if (!Array.isArray(newValue)) return;
-
-        if (activeThumb === 0) setValue1([Math.min(newValue[0], value1[1] - minDistance), value1[1]]);
-        else setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
     };
 
     return (
@@ -51,11 +36,9 @@ const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, 
                                 sx={{width: "25%", position: "relative", top: ".5em", marginRight: "1em", marginLeft: ".5em"}}
                                 min={minValue}                                
                                 max={maxValue}
-                                getAriaLabel={() => "Minimum distance"}
-                                value={value1}
-                                onChange={handleChange}
                                 valueLabelDisplay="auto"
-                                getAriaValueText={valuetext}
+                                value={sliderValues[idx]}
+                                onChange={onSliderChange(idx)}
                                 disableSwap
                             />
                             <CustomFormControl>
@@ -82,11 +65,9 @@ const MinimumDistanceSlider = ({ minValue, maxValue, hasSelect, numScoreClicks, 
                         sx={{ width: "95%", marginLeft: ".5em" }}                    
                         min={minValue}
                         max={maxValue}
-                        getAriaLabel={() => "Minimum distance"}
-                        value={value1}
-                        onChange={handleChange}
-                        valueLabelDisplay="auto"
-                        getAriaValueText={valuetext}
+                        value={sliderValues}
+                        onChange={onSliderChange}
+                        valueLabelDisplay="auto"                        
                         disableSwap
                     />
                 </Box>
