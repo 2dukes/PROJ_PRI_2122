@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageLayout from "./components/Layout/PageLayout";
 import CryptoPage from "./pages/CryptoPage";
 import NewsPage from "./pages/NewsPage";
-import SearchResultsPage from "./pages/SearchResultsPage";
+import HomePage from "./pages/HomePage";
 
 const AppRouter = () => {
     const exampleArticles = [
@@ -61,7 +61,7 @@ const AppRouter = () => {
                     key="/"
                     element={
                         <PageLayout key="/">
-                            <SearchResultsPage />
+                            <HomePage />
                         </PageLayout>
                     }
                 />

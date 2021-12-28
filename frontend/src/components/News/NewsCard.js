@@ -8,13 +8,13 @@ import { CardActionArea } from "@mui/material";
 const ArticleCard = styled(Card)({
     maxWidth: 750,
     margin: "auto",
-    marginBottom: "3em"
+    marginBottom: "3em",
 });
 
 const NewsCard = ({ article }) => {
     return (
         <ArticleCard>
-            <CardActionArea href={article.url} target="_blank" >
+            <CardActionArea href={article.url} target="_blank">
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {article.title}
