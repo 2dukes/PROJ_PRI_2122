@@ -1,5 +1,6 @@
-import { useState } from "react";
-import MinimumDistanceSlider from "../components/Search/MinimumDistanceSlider";
+import { useState, useCallback } from "react";
+import SelectWithSlider from "../components/Search/SelectWithSlider";
+import SelectWithInputs from "../components/Search/SelectWithInputs";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Divider, Typography, Switch } from "@mui/material";
@@ -35,52 +36,85 @@ const RightBlock = styled("div")({
 
 const SearchResultsPage = () => {
     const [blockTime, setBlockTime] = useState([0, 1]);
-    const [scores, setScores] = useState([[0, 100], [0, 100], [0, 100]]);
+    const [scores, setScores] = useState([
+        [0, 100],
+        [0, 100],
+        [0, 100],
+    ]);
     const [scoreLabelValues, setScoreLabels] = useState([1]);
     const [numScoreClicks, setNumScoreClicks] = useState(1);
+    const [priceValues, setPriceValues] = useState(["", "", ""]);
+    const [priceChangeLabelValues, setPriceChangeLabelValues] = useState([1]);
+    const [numPriceChangeClicks, setPriceChangeClicks] = useState(1);
+    const [allTimeHigh, setAllTimeHigh] = useState("");
+    const [currentPrice, setCurrentPrice] = useState("");
+    const [marketCap, setMarketCap] = useState("");
 
-    const handleBlockTimeChange = (event, newValue, activeThumb) => {
-        if (!Array.isArray(newValue)) return;
+    const handleBlockTimeChange = useCallback(
+        (event, newValue, activeThumb) => {
+            if (!Array.isArray(newValue)) return;
 
-        if (activeThumb === 0) setBlockTime([Math.min(newValue[0], blockTime[1] - 1), blockTime[1]]);
-        else setBlockTime([blockTime[0], Math.max(newValue[1], blockTime[0] + 1)]);
-    };
+            if (activeThumb === 0) setBlockTime([Math.min(newValue[0], blockTime[1] - 1), blockTime[1]]);
+            else setBlockTime([blockTime[0], Math.max(newValue[1], blockTime[0] + 1)]);
+        },
+        [blockTime]
+    );
 
-    const handleMoreScoreClick = () => {
-        if (numScoreClicks < 3) {
-            let auxScoreLabelValues = [...scoreLabelValues]   
-              
-            for (let elem of [1, 2, 3]) {
-                if(!auxScoreLabelValues.includes(elem)) {
-                    auxScoreLabelValues.push(elem)
-                    setScoreLabels(auxScoreLabelValues);
-                    setNumScoreClicks((numScoreClicks) => numScoreClicks + 1);
-                    return 
+    const handleMoreClick = useCallback(
+        (moreClicks, selectLabels, setMoreClicks, setSelectLabels) => () => {
+            if (moreClicks < 3) {
+                let auxScoreLabelValues = [...selectLabels];
+
+                for (let elem of [1, 2, 3]) {
+                    if (!auxScoreLabelValues.includes(elem)) {
+                        auxScoreLabelValues.push(elem);
+                        setSelectLabels(auxScoreLabelValues);
+                        setMoreClicks((moreClicks) => moreClicks + 1);
+                        return;
+                    }
                 }
-            }            
-        }
-    };
+            }
+        },
+        []
+    );
 
-    const handleScoreChange = (idx) => (event, newValue, activeThumb) => {
-        if (!Array.isArray(newValue)) return;
-    
-        let auxScores = [...scores]
-        if (activeThumb === 0) {
-            auxScores[idx] = [Math.min(newValue[0], auxScores[idx][1] - 1), auxScores[idx][1]]
-            setScores(auxScores)
-        }
-        else {
-            auxScores[idx] = [scores[idx][0], Math.max(newValue[1], scores[idx][0] + 1)] 
-            setScores(auxScores) 
-        }
-    };
+    const handleScoreChange = useCallback(
+        (idx) => (event, newValue, activeThumb) => {
+            if (!Array.isArray(newValue)) return;
 
-    const handleScoreLabelsChange = (idx) => (event) => {
-        let auxScoreLabelValues = [...scoreLabelValues]
-        auxScoreLabelValues[idx] = event.target.value
-        if(auxScoreLabelValues.length < 3 && [...new Set(auxScoreLabelValues)].length === auxScoreLabelValues.length)
-            setScoreLabels(auxScoreLabelValues);
-    };
+            let auxScores = [...scores];
+            if (activeThumb === 0) {
+                auxScores[idx] = [Math.min(newValue[0], auxScores[idx][1] - 1), auxScores[idx][1]];
+                setScores(auxScores);
+            } else {
+                auxScores[idx] = [scores[idx][0], Math.max(newValue[1], scores[idx][0] + 1)];
+                setScores(auxScores);
+            }
+        },
+        [scores]
+    );
+
+    const handleLabelsChange = useCallback(
+        (idx, values, setValues) => (event) => {
+            let auxScoreLabelValues = [...values];
+            auxScoreLabelValues[idx] = event.target.value;
+            if (
+                auxScoreLabelValues.length < 3 &&
+                [...new Set(auxScoreLabelValues)].length === auxScoreLabelValues.length
+            )
+                setValues(auxScoreLabelValues);
+        },
+        []
+    );
+
+    const handleInputChange = useCallback(
+        (idx) => (event) => {
+            let auxPriceValues = [...priceValues];
+            auxPriceValues[idx] = event.target.value;
+            setPriceValues(auxPriceValues);
+        },
+        [priceValues]
+    );
 
     return (
         <PageBody>
@@ -100,7 +134,7 @@ const SearchResultsPage = () => {
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">Block Time in Minutes (0-10)</Typography>
-                    <MinimumDistanceSlider
+                    <SelectWithSlider
                         minValue={0}
                         maxValue={10}
                         sliderValues={blockTime}
@@ -115,43 +149,44 @@ const SearchResultsPage = () => {
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">Score (%)</Typography>
-                    <MinimumDistanceSlider
+                    <SelectWithSlider
                         minValue={0}
                         maxValue={100}
                         hasSelect={true}
-                        numScoreClicks={numScoreClicks}
-                        onMoreClick={handleMoreScoreClick}
+                        numMoreClicks={numScoreClicks}
+                        onMoreClick={handleMoreClick}
+                        setMoreClick={setNumScoreClicks}
                         sliderValues={scores}
                         onSliderChange={handleScoreChange}
                         selectValues={scoreLabelValues}
-                        onSelectChange={handleScoreLabelsChange}
+                        onSelectChange={handleLabelsChange}
+                        setSelectValues={setScoreLabels}
                     />
                 </OptionDiv>
                 <OptionDiv>
-                    <Typography color="gray">Price Change (%)</Typography>
-                    <MinimumDistanceSlider
-                        // minValue={0}
-                        // maxValue={100}
-                        // hasSelect={true}
-                        // numScoreClicks={numScoreClicks}
-                        // onMoreClick={handleMoreScoreClick}
-                        // sliderValues={scores}
-                        // onSliderChange={handleScoreChange}
-                        // selectValues={scoreLabelValues}
-                        // onSelectChange={handleScoreLabelsChange}
+                    <Typography color="gray">Price Change Last (%)</Typography>
+                    <SelectWithInputs
+                        inputValues={priceValues}
+                        onInputChange={handleInputChange}
+                        numMoreClicks={numPriceChangeClicks}
+                        onMoreClick={handleMoreClick}
+                        setMoreClick={setPriceChangeClicks}
+                        selectValues={priceChangeLabelValues}
+                        onSelectChange={handleLabelsChange}
+                        setSelectValues={setPriceChangeLabelValues}
                     />
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">All Time High (USD)</Typography>
-                    <TextInput />
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Market Cap</Typography>
-                    <TextInput />
+                    <TextInput value={allTimeHigh} setValue={setAllTimeHigh} unit="$" />
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">Current Price</Typography>
-                    <TextInput />
+                    <TextInput value={currentPrice} setValue={setCurrentPrice} unit="$" />
+                </OptionDiv>
+                <OptionDiv>
+                    <Typography color="gray">Market Cap</Typography>
+                    <TextInput value={marketCap} setValue={setMarketCap} unit="B$" />
                 </OptionDiv>
             </LeftBlock>
             <RightBlock />
