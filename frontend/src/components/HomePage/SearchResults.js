@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Stack, Pagination } from "@mui/material";
+import { Stack, Pagination, Typography } from "@mui/material";
 
 import SearchResultsItem from "./SearchResultsItem";
+import NewsPage from "../../pages/NewsPage";
 
-const SearchResults = ({ searchResultsCryptos }) => {
+const SearchResults = ({ searchResultsCryptos, searchResultsArticles }) => {
     const [currentPage, setPage] = useState(1);
     const resultsPerPage = 3;
     const numberPages = Math.ceil(searchResultsCryptos.length / resultsPerPage);
@@ -13,18 +14,25 @@ const SearchResults = ({ searchResultsCryptos }) => {
 
     return (
         <div>
-            <div>
+            <Typography gutterBottom variant="h4">
+                Cryptocurrencies
+            </Typography>
+            <Stack>
                 {selectedResults.map((searchResultsCrypto) => (
                     <SearchResultsItem searchResultsCrypto={searchResultsCrypto} />
                 ))}
-            </div>
-            <Stack spacing={2} alignItems="center" marginTop="2em">
+            </Stack>
+            <Stack spacing={2} alignItems="center" margin="2em">
                 <Pagination
                     count={numberPages}
                     page={currentPage}
                     onChange={(_, newPage) => setPage(newPage)}
                 />
             </Stack>
+            <Typography gutterBottom variant="h4">
+                News
+            </Typography>
+            <NewsPage articles={searchResultsArticles} />
         </div>
     );
 };
