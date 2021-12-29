@@ -13,6 +13,7 @@ import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 
 import { getCategories } from "../services/getCategories";
+import { getHashingAlgorithms } from "../services/getHashingAlgorithms";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -105,6 +106,7 @@ const SearchResultsPage = () => {
     const [currentPrice, setCurrentPrice] = useState("");
     const [marketCap, setMarketCap] = useState("");
     const [categories, setCategories] = useState([]);
+    const [hashingAlgorithms, setHashingAlgorithms] = useState([]);
 
     useEffect(() => {
         getCategories()
@@ -123,6 +125,23 @@ const SearchResultsPage = () => {
                 });
 
                 setCategories([...retrievedCategories]);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+
+        getHashingAlgorithms()
+            .then((data) => {
+                let retrievedHashingAlgorithms = [];
+                const retrievedCryptos = data?.hits?.hits;
+
+                retrievedCryptos.forEach((crypto) => {
+                    const hashingAlgorithm = crypto?._source.hashing_algorithm;
+                    if (hashingAlgorithm !== "" && !retrievedHashingAlgorithms.includes(hashingAlgorithm))
+                        retrievedHashingAlgorithms.push(hashingAlgorithm);
+                });
+
+                setHashingAlgorithms([...retrievedHashingAlgorithms]);
             })
             .catch((err) => {
                 console.error(err);
@@ -314,7 +333,7 @@ const SearchResultsPage = () => {
                         <Autocomplete
                             disablePortal
                             id="combo-box-demo"
-                            options={["test", "not test", "test2"]}
+                            options={hashingAlgorithms}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Movie" />}
                         />
