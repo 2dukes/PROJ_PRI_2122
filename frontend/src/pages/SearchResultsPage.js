@@ -319,23 +319,35 @@ const SearchResultsPage = () => {
                         <TextInput value={marketCap} setValue={setMarketCap} unit="B$" />
                     </OptionDiv>
                     <OptionDiv>
-                        <Typography color="gray">Categories</Typography>
                         <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
+                            multiple
+                            id="tags-outlined"
                             options={categories}
-                            sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Categories" />}
+                            getOptionLabel={(option) => option}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Categories"
+                                    placeholder="Select categories"
+                                />
+                            )}
                         />
                     </OptionDiv>
                     <OptionDiv>
-                        <Typography color="gray">Hashing Algorithm</Typography>
                         <Autocomplete
-                            disablePortal
-                            id="combo-box-demo"
+                            multiple
+                            id="tags-outlined"
                             options={hashingAlgorithms}
-                            sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Hashing Algorithms" />}
+                            getOptionLabel={(option) => option}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Hashing Algorithms"
+                                    placeholder="Select algorithms"
+                                />
+                            )}
                         />
                     </OptionDiv>
                 </LeftBlock>
