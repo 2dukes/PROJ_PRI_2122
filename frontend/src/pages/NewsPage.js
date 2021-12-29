@@ -7,12 +7,10 @@ import { styled } from "@mui/material/styles";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
-    height: "75vh",
 });
 
 const NewsContainer = styled("div")({
     height: "80%",
-    overflowY: "auto",
 });
 
 const Loading = styled("div")({
@@ -60,7 +58,7 @@ const NewsPage = ({ articles }) => {
                     <NewsCard article={selectedArticle} />
                 ))}
             </NewsContainer>
-            <Stack spacing={2} alignItems="center" marginTop="2em">
+            <Stack spacing={2} alignItems="center" margin="2em">
                 <Pagination
                     count={numberPages}
                     page={currentPage}

@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CircularProgress, Avatar, Divider, TableContainer, Table, TableBody, Paper, Stack } from "@mui/material";
+import {
+    CircularProgress,
+    Avatar,
+    Divider,
+    TableContainer,
+    Table,
+    TableBody,
+    Paper,
+    Stack,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { getCrypto } from "../services/getCrypto";
@@ -13,8 +22,8 @@ import CryptoPriceChange from "../components/Crypto/CryptoPriceChange";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
-    height: "80vh",
-    overflowY: "auto",
+    // height: "80vh",
+    // overflowY: "auto",
 });
 
 const Loading = styled("div")({
@@ -50,7 +59,7 @@ const CryptoAvatar = styled(Avatar)({
 
 const CryptoPriceSection = styled("div")({
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
 });
 
 const CryptoPrice = styled("h2")({
@@ -59,7 +68,7 @@ const CryptoPrice = styled("h2")({
         content: "'$'",
     },
     fontWeight: "500",
-})
+});
 
 const SectionDivider = styled(Divider)({
     margin: "1em 0 1em",
@@ -137,10 +146,10 @@ const CryptoPage = () => {
             </CryptoHeader>
             <CryptoPriceSection>
                 <CryptoPrice>{crypto.current_price}</CryptoPrice>
-                <Stack direction="row" spacing={2} >
-                    <CryptoPriceChange timeFrame="7d" percentage={crypto.price_change_percentage_7d}/>
-                    <CryptoPriceChange timeFrame="30d" percentage={crypto.price_change_percentage_30d}/>
-                    <CryptoPriceChange timeFrame="1y" percentage={crypto.price_change_percentage_1y}/>
+                <Stack direction="row" spacing={2}>
+                    <CryptoPriceChange timeFrame="7d" percentage={crypto.price_change_percentage_7d} />
+                    <CryptoPriceChange timeFrame="30d" percentage={crypto.price_change_percentage_30d} />
+                    <CryptoPriceChange timeFrame="1y" percentage={crypto.price_change_percentage_1y} />
                 </Stack>
             </CryptoPriceSection>
             <CryptoCategories categories={crypto.categories} />
