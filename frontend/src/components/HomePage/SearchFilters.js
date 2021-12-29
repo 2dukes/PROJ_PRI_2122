@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useCallback, Fragment } from "react";
-import SelectWithSlider from "../components/Search/SelectWithSlider";
-import SelectWithInputs from "../components/Search/SelectWithInputs";
-// import { Link } from "react-router-dom";
+import SelectWithSlider from "../Search/SelectWithSlider";
+import SelectWithInputs from "../Search/SelectWithInputs";
 import { styled, alpha } from "@mui/material/styles";
 import { Divider, Typography, Switch } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import TextInput from "../components/Search/TextInput";
+import TextInput from "../Search/TextInput";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 
-import { getCategories } from "../services/getCategories";
-import { getHashingAlgorithms } from "../services/getHashingAlgorithms";
+import { getCategories } from "../../services/getCategories";
+import { getHashingAlgorithms } from "../../services/getHashingAlgorithms";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -64,8 +63,6 @@ const PageHeader = styled("div")({
 
 const PageBody = styled("div")({
     margin: "1em 3em 0 2em",
-    height: "75vh",
-    overflow: "auto",
 });
 
 const OptionDiv = styled("div")({
@@ -76,20 +73,18 @@ const OptionDiv = styled("div")({
 });
 
 const LeftBlock = styled("div")({
-    // backgroundColor: "red",
     height: "90%",
     width: "25%",
     float: "left",
 });
 
 const RightBlock = styled("div")({
-    // backgroundColor: "green",
     height: "90%",
     width: "75%",
     float: "right",
 });
 
-const SearchResultsPage = () => {
+const SearchFilters = () => {
     const [results, setResults] = useState([true, true]);
     const [blockTime, setBlockTime] = useState([0, 1]);
     const [scores, setScores] = useState([
@@ -230,7 +225,6 @@ const SearchResultsPage = () => {
                 </Search>
             </PageHeader>
             <PageBody>
-                {/* <Link to="/crypto/438">Crypto 438</Link> | <Link to="/news/">Example Article</Link> */}
                 <Divider />
                 <LeftBlock>
                     <OptionDiv>
@@ -272,10 +266,32 @@ const SearchResultsPage = () => {
                         />
                     </OptionDiv>
                     <OptionDiv>
-                        <Typography color="gray">Hashing Algorithm</Typography>
+                        <Autocomplete
+                            multiple
+                            id="tags-outlined"
+                            options={categories}
+                            getOptionLabel={(option) => option}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                                <TextField {...params} label="Categories" placeholder="Select categories" />
+                            )}
+                        />
                     </OptionDiv>
                     <OptionDiv>
-                        <Typography color="gray">Categories...</Typography>
+                        <Autocomplete
+                            multiple
+                            id="tags-outlined"
+                            options={hashingAlgorithms}
+                            getOptionLabel={(option) => option}
+                            filterSelectedOptions
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Hashing Algorithms"
+                                    placeholder="Select algorithms"
+                                />
+                            )}
+                        />
                     </OptionDiv>
                     <OptionDiv>
                         <Typography color="gray">Score (%)</Typography>
@@ -318,38 +334,6 @@ const SearchResultsPage = () => {
                         <Typography color="gray">Market Cap</Typography>
                         <TextInput value={marketCap} setValue={setMarketCap} unit="B$" />
                     </OptionDiv>
-                    <OptionDiv>
-                        <Autocomplete
-                            multiple
-                            id="tags-outlined"
-                            options={categories}
-                            getOptionLabel={(option) => option}
-                            filterSelectedOptions
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Categories"
-                                    placeholder="Select categories"
-                                />
-                            )}
-                        />
-                    </OptionDiv>
-                    <OptionDiv>
-                        <Autocomplete
-                            multiple
-                            id="tags-outlined"
-                            options={hashingAlgorithms}
-                            getOptionLabel={(option) => option}
-                            filterSelectedOptions
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="Hashing Algorithms"
-                                    placeholder="Select algorithms"
-                                />
-                            )}
-                        />
-                    </OptionDiv>
                 </LeftBlock>
                 <RightBlock />
             </PageBody>
@@ -357,4 +341,4 @@ const SearchResultsPage = () => {
     );
 };
 
-export default SearchResultsPage;
+export default SearchFilters;

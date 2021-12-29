@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SearchFilters from "../components/HomePage/SearchFilters";
 
 import SearchResults from "../components/HomePage/SearchResults";
 
@@ -65,6 +66,7 @@ const SearchResultsPage = () => {
             <Link to="/crypto/438">Crypto 438</Link>
             <br />
             <Link to="/news/">Example Article</Link>
+            <SearchFilters />
             <SearchResults searchResultsCryptos={searchResultsCryptos} searchResultsArticles={articles} />
         </div>
     );
