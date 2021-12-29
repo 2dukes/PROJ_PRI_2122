@@ -4,6 +4,7 @@ import PageLayout from "./components/Layout/PageLayout";
 import CryptoPage from "./pages/CryptoPage";
 import NewsPage from "./pages/NewsPage";
 import HomePage from "./pages/HomePage";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 const AppRouter = () => {
     const exampleArticles = [
@@ -84,6 +85,17 @@ const AppRouter = () => {
                     element={
                         <PageLayout key="/news/">
                             <NewsPage articles={exampleArticles} />
+                        </PageLayout>
+                    }
+                />
+
+                <Route
+                    exact
+                    path="/search/"
+                    key="/search/"
+                    element={
+                        <PageLayout key="/search/">
+                            <SearchResultsPage />
                         </PageLayout>
                     }
                 />
