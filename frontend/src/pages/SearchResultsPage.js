@@ -1,23 +1,73 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, Fragment } from "react";
 import SelectWithSlider from "../components/Search/SelectWithSlider";
 import SelectWithInputs from "../components/Search/SelectWithInputs";
 // import { Link } from "react-router-dom";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import { Divider, Typography, Switch } from "@mui/material";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextInput from "../components/Search/TextInput";
+import SearchIcon from "@mui/icons-material/Search";
+import InputBase from "@mui/material/InputBase";
+
+const Search = styled("div")(({ theme }) => ({
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    "&:hover": {
+        backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    top: "25%",
+    float: "right", 
+    right: 0,
+    marginRight: "1em",
+    [theme.breakpoints.up("sm")]: {
+        marginLeft: theme.spacing(1),
+        width: "auto",
+    },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: "inherit",
+    "& .MuiInputBase-input": {
+        padding: theme.spacing(1, 1, 1, 0),
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create("width"),
+        [theme.breakpoints.up("sm")]: {
+            width: "12ch",
+            "&:focus": {
+                width: "60ch",
+            },
+        },
+    },
+}));
+
+const PageHeader = styled("div")({
+    margin: "6em 3em 0 2em",
+    height: "6vh",
+});
 
 const PageBody = styled("div")({
-    margin: "6em 3em 0 2em",
+    margin: "1em 3em 0 2em",
     height: "75vh",
-    overflowY: "auto",
+    overflow: "auto",
 });
 
 const OptionDiv = styled("div")({
     width: "75%",
     margin: "auto",
-    marginBottom: "1.5em",
+    marginBottom: "1em",
+    marginTop: ".75em"
 });
 
 const LeftBlock = styled("div")({
@@ -118,99 +168,113 @@ const SearchResultsPage = () => {
     );
 
     return (
-        <PageBody>
-            {/* <Link to="/crypto/438">Crypto 438</Link> | <Link to="/news/">Example Article</Link> */}
-            <Typography variant="h3">Search Results</Typography>
-            <Divider sx={{ marginBottom: "1em" }} />
-            <LeftBlock>
-                <OptionDiv>
-                    <Typography color="gray">Results</Typography>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    name="cryptos"
-                                    checked={results[0]}
-                                    onChange={() =>
-                                        setResults((results) => (results = [!results[0], results[1]]))
-                                    }
-                                />
-                            }
-                            label="Cryptos"
+        <Fragment>
+            <PageHeader>
+                <Typography variant="h3" display="inline" width="50%">
+                    Search Results
+                </Typography>
+                <Search sx={{ marginRight: "5em" }}>
+                    <form>
+                        <SearchIconWrapper>
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
+                    </form>
+                </Search>
+            </PageHeader>
+            <PageBody>
+                {/* <Link to="/crypto/438">Crypto 438</Link> | <Link to="/news/">Example Article</Link> */}
+                <Divider />
+                <LeftBlock>
+                    <OptionDiv>
+                        <Typography color="gray">Results</Typography>
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        name="cryptos"
+                                        checked={results[0]}
+                                        onChange={() =>
+                                            setResults((results) => (results = [!results[0], results[1]]))
+                                        }
+                                    />
+                                }
+                                label="Cryptos"
+                            />
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        name="news"
+                                        checked={results[1]}
+                                        onChange={() =>
+                                            setResults((results) => (results = [results[0], !results[1]]))
+                                        }
+                                    />
+                                }
+                                label="News"
+                            />
+                        </FormGroup>
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Block Time in Minutes (0-10)</Typography>
+                        <SelectWithSlider
+                            minValue={0}
+                            maxValue={10}
+                            sliderValues={blockTime}
+                            onSliderChange={handleBlockTimeChange}
                         />
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    name="news"
-                                    checked={results[1]}
-                                    onChange={() =>
-                                        setResults((results) => (results = [results[0], !results[1]]))
-                                    }
-                                />
-                            }
-                            label="News"
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Hashing Algorithm</Typography>
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Categories...</Typography>
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Score (%)</Typography>
+                        <SelectWithSlider
+                            minValue={0}
+                            maxValue={100}
+                            hasSelect={true}
+                            numMoreClicks={numScoreClicks}
+                            onMoreClick={handleMoreClick}
+                            setMoreClick={setNumScoreClicks}
+                            sliderValues={scores}
+                            onSliderChange={handleScoreChange}
+                            selectValues={scoreLabelValues}
+                            onSelectChange={handleLabelsChange}
+                            setSelectValues={setScoreLabels}
                         />
-                    </FormGroup>
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Block Time in Minutes (0-10)</Typography>
-                    <SelectWithSlider
-                        minValue={0}
-                        maxValue={10}
-                        sliderValues={blockTime}
-                        onSliderChange={handleBlockTimeChange}
-                    />
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Hashing Algorithm</Typography>
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Categories...</Typography>
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Score (%)</Typography>
-                    <SelectWithSlider
-                        minValue={0}
-                        maxValue={100}
-                        hasSelect={true}
-                        numMoreClicks={numScoreClicks}
-                        onMoreClick={handleMoreClick}
-                        setMoreClick={setNumScoreClicks}
-                        sliderValues={scores}
-                        onSliderChange={handleScoreChange}
-                        selectValues={scoreLabelValues}
-                        onSelectChange={handleLabelsChange}
-                        setSelectValues={setScoreLabels}
-                    />
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Price Change Last (%)</Typography>
-                    <SelectWithInputs
-                        inputValues={priceValues}
-                        onInputChange={handleInputChange}
-                        numMoreClicks={numPriceChangeClicks}
-                        onMoreClick={handleMoreClick}
-                        setMoreClick={setPriceChangeClicks}
-                        selectValues={priceChangeLabelValues}
-                        onSelectChange={handleLabelsChange}
-                        setSelectValues={setPriceChangeLabelValues}
-                    />
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">All Time High (USD)</Typography>
-                    <TextInput value={allTimeHigh} setValue={setAllTimeHigh} unit="$" />
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Current Price</Typography>
-                    <TextInput value={currentPrice} setValue={setCurrentPrice} unit="$" />
-                </OptionDiv>
-                <OptionDiv>
-                    <Typography color="gray">Market Cap</Typography>
-                    <TextInput value={marketCap} setValue={setMarketCap} unit="B$" />
-                </OptionDiv>
-            </LeftBlock>
-            <RightBlock />
-        </PageBody>
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Price Change Last (%)</Typography>
+                        <SelectWithInputs
+                            inputValues={priceValues}
+                            onInputChange={handleInputChange}
+                            numMoreClicks={numPriceChangeClicks}
+                            onMoreClick={handleMoreClick}
+                            setMoreClick={setPriceChangeClicks}
+                            selectValues={priceChangeLabelValues}
+                            onSelectChange={handleLabelsChange}
+                            setSelectValues={setPriceChangeLabelValues}
+                        />
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">All Time High (USD)</Typography>
+                        <TextInput value={allTimeHigh} setValue={setAllTimeHigh} unit="$" />
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Current Price</Typography>
+                        <TextInput value={currentPrice} setValue={setCurrentPrice} unit="$" />
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Market Cap</Typography>
+                        <TextInput value={marketCap} setValue={setMarketCap} unit="B$" />
+                    </OptionDiv>
+                </LeftBlock>
+                <RightBlock />
+            </PageBody>
+        </Fragment>
     );
 };
 
