@@ -13,7 +13,7 @@ const Header = () => {
                 <Toolbar>
                     <MenuItem key={"Crypto Ledger"} component={Link} to="/">
                         <Typography textAlign="center">{"Crypto Ledger"}</Typography>
-                    </MenuItem>                    
+                    </MenuItem>
                 </Toolbar>
             </AppBar>
         </Box>

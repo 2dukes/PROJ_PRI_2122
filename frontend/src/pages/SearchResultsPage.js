@@ -18,7 +18,7 @@ const Search = styled("div")(({ theme }) => ({
         backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     top: "25%",
-    float: "right", 
+    float: "right",
     right: 0,
     marginRight: "1em",
     [theme.breakpoints.up("sm")]: {
@@ -67,7 +67,7 @@ const OptionDiv = styled("div")({
     width: "75%",
     margin: "auto",
     marginBottom: "1em",
-    marginTop: ".75em"
+    marginTop: ".75em",
 });
 
 const LeftBlock = styled("div")({
