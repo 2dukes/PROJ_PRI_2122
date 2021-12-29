@@ -9,6 +9,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import TextInput from "../components/Search/TextInput";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
+import { Autocomplete } from "@mui/material";
+import { TextField } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -83,6 +85,25 @@ const RightBlock = styled("div")({
     width: "75%",
     float: "right",
 });
+
+async function getCategories() {
+    let url = "http://localhost:9200/cryptos/_search";
+
+    let requestParams = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            _source: ["categories"],
+            size: 10000,
+        }),
+    };
+
+    fetch(url, requestParams).then((resp) => {
+        console.log(resp);
+    });
+
+    
+}
 
 const SearchResultsPage = () => {
     const [results, setResults] = useState([true, true]);
@@ -270,6 +291,26 @@ const SearchResultsPage = () => {
                     <OptionDiv>
                         <Typography color="gray">Market Cap</Typography>
                         <TextInput value={marketCap} setValue={setMarketCap} unit="B$" />
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Categories</Typography>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={["test", "not test", "test2"]}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Movie" />}
+                        />
+                    </OptionDiv>
+                    <OptionDiv>
+                        <Typography color="gray">Hashing Algorithm</Typography>
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-demo"
+                            options={["test", "not test", "test2"]}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Movie" />}
+                        />
                     </OptionDiv>
                 </LeftBlock>
                 <RightBlock />
