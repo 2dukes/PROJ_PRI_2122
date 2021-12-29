@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo } from "react";
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -20,4 +20,4 @@ const TextInput = ({ unit, value, setValue }) => {
     );
 };
 
-export default TextInput;
+export default memo(TextInput);

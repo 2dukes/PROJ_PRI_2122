@@ -127,10 +127,29 @@ const SearchResultsPage = () => {
                     <Typography color="gray">Results</Typography>
                     <FormGroup>
                         <FormControlLabel
-                            control={<Switch name="cryptos" checked={results[0]} onChange={() => setResults(results => results = [!results[0], results[1]])}/>}
+                            control={
+                                <Switch
+                                    name="cryptos"
+                                    checked={results[0]}
+                                    onChange={() =>
+                                        setResults((results) => (results = [!results[0], results[1]]))
+                                    }
+                                />
+                            }
                             label="Cryptos"
                         />
-                        <FormControlLabel control={<Switch name="news" checked={results[1]} onChange={() => setResults(results => results = [results[0], !results[1]])} />} label="News" />
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    name="news"
+                                    checked={results[1]}
+                                    onChange={() =>
+                                        setResults((results) => (results = [results[0], !results[1]]))
+                                    }
+                                />
+                            }
+                            label="News"
+                        />
                     </FormGroup>
                 </OptionDiv>
                 <OptionDiv>

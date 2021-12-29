@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, memo } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import { styled } from "@mui/material/styles";
@@ -101,4 +101,4 @@ const SelectWithSlider = ({
     );
 };
 
-export default SelectWithSlider;
+export default memo(SelectWithSlider);
