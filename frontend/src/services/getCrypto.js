@@ -1,4 +1,4 @@
-const API_HOSTNAME = "http://localhost:9200";
+import API_HOSTNAME from "../config";
 
 export const getCrypto = async (coinId) => {
     try {

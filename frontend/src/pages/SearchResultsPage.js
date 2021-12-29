@@ -1,4 +1,4 @@
-import { useState, useCallback, Fragment } from "react";
+import React, { useState, useEffect, useCallback, Fragment } from "react";
 import SelectWithSlider from "../components/Search/SelectWithSlider";
 import SelectWithInputs from "../components/Search/SelectWithInputs";
 // import { Link } from "react-router-dom";
@@ -12,6 +12,8 @@ import InputBase from "@mui/material/InputBase";
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 
+import { getCategories } from "../services/getCategories";
+
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -22,7 +24,7 @@ const Search = styled("div")(({ theme }) => ({
     top: "25%",
     float: "right",
     right: 0,
-    marginRight: "1em",
+    marginRight: "5em",
     [theme.breakpoints.up("sm")]: {
         marginLeft: theme.spacing(1),
         width: "auto",
@@ -86,25 +88,6 @@ const RightBlock = styled("div")({
     float: "right",
 });
 
-async function getCategories() {
-    let url = "http://localhost:9200/cryptos/_search";
-
-    let requestParams = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            _source: ["categories"],
-            size: 10000,
-        }),
-    };
-
-    fetch(url, requestParams).then((resp) => {
-        console.log(resp);
-    });
-
-    
-}
-
 const SearchResultsPage = () => {
     const [results, setResults] = useState([true, true]);
     const [blockTime, setBlockTime] = useState([0, 1]);
@@ -121,6 +104,30 @@ const SearchResultsPage = () => {
     const [allTimeHigh, setAllTimeHigh] = useState("");
     const [currentPrice, setCurrentPrice] = useState("");
     const [marketCap, setMarketCap] = useState("");
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        getCategories()
+            .then((data) => {
+                let retrievedCategories = [];
+                const retrievedCryptos = data?.hits?.hits;
+
+                retrievedCryptos.forEach((crypto) => {
+                    const cryptoCategories = crypto?._source.categories;
+                    if (cryptoCategories != null && cryptoCategories.length > 0) {
+                        cryptoCategories.forEach((category) => {
+                            if (category !== "" && !retrievedCategories.includes(category))
+                                retrievedCategories.push(category);
+                        });
+                    }
+                });
+
+                setCategories([...retrievedCategories]);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, []);
 
     const handleBlockTimeChange = useCallback(
         (event, newValue, activeThumb) => {
@@ -194,7 +201,7 @@ const SearchResultsPage = () => {
                 <Typography variant="h3" display="inline" width="50%">
                     Search Results
                 </Typography>
-                <Search sx={{ marginRight: "5em" }}>
+                <Search>
                     <form>
                         <SearchIconWrapper>
                             <SearchIcon />
@@ -297,7 +304,7 @@ const SearchResultsPage = () => {
                         <Autocomplete
                             disablePortal
                             id="combo-box-demo"
-                            options={["test", "not test", "test2"]}
+                            options={categories}
                             sx={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Movie" />}
                         />
