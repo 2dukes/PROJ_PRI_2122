@@ -1,27 +1,23 @@
 import React, { Fragment } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Typography, InputBase, Grid } from "@mui/material";
-import { styled, alpha } from "@mui/material/styles";
+import { Typography, InputBase, Grid, Paper } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 import SearchFilters from "../components/HomePage/SearchFilters";
 import SearchResults from "../components/HomePage/SearchResults";
 
-const Search = styled("div")(({ theme }) => ({
+const Search = styled(Paper)({
+    width: "100%",
     position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    border: "1px solid",
+    borderColor: "rgb(118, 118, 118)",
     "&:hover": {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
+        border: "1px solid black",
     },
     top: "25%",
     float: "right",
     right: 0,
-    marginRight: "5em",
-    [theme.breakpoints.up("sm")]: {
-        marginLeft: theme.spacing(1),
-        width: "auto",
-    },
-}));
+});
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
@@ -34,23 +30,14 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create("width"),
-        [theme.breakpoints.up("sm")]: {
-            width: "12ch",
-            "&:focus": {
-                width: "60ch",
-            },
-        },
-    },
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
 }));
 
 const PageHeader = styled("div")({
-    margin: "6em 3em 0 2em",
-    height: "6vh",
+    margin: "6em 1em 0 1em",
+    display: "flex",
+    alignItems: "center",
 });
 
 const SearchResultsPage = () => {
@@ -134,20 +121,28 @@ const SearchResultsPage = () => {
     return (
         <Fragment>
             <PageHeader>
-                <Typography variant="h3" display="inline" width="50%">
-                    Search Results
-                </Typography>
-                <Search>
-                    <form>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
-                    </form>
-                </Search>
+                <Grid container>
+                    <Grid item sm={5} md={3}>
+                        <Typography variant="h3" display="inline" width="50%">
+                            Search Results
+                        </Typography>
+                    </Grid>
+                    <Grid item sm={7} md={9}>
+                        <Search elevation={0}>
+                            <form>
+                                <SearchIconWrapper>
+                                    <SearchIcon />
+                                </SearchIconWrapper>
+                                <StyledInputBase
+                                    placeholder="Search…"
+                                    inputProps={{ "aria-label": "search" }}
+                                />
+                            </form>
+                        </Search>
+                    </Grid>
+                </Grid>
             </PageHeader>
-
-            <Grid container>
+            <Grid container sx={{ marginTop: "2em" }}>
                 <Grid item sm={5} md={3}>
                     <SearchFilters />
                 </Grid>
