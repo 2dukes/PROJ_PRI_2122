@@ -12,7 +12,7 @@ const TextInput = ({ unit, value, setValue }) => {
                     sx={{ height: "35px" }}
                     value={value}
                     onChange={(event) => setValue(event.target.value)}
-                    startAdornment={<InputAdornment position="start">></InputAdornment>}
+                    startAdornment={<InputAdornment position="start"></InputAdornment>}
                     endAdornment={<InputAdornment position="end">{unit}</InputAdornment>}
                 />
             </FormControl>

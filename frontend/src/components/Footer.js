@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 
 const Footer = () => {
     return (
-        <AppBar position="static" color="primary" sx={{ top: `calc(100vh - 64px)` }}>
+        <AppBar position="static" color="primary">
             <Toolbar>
                 <Typography width="100%" textAlign="right">
                     © 2021 PRI

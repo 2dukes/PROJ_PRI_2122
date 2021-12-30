@@ -6,9 +6,7 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 
 const ArticleCard = styled(Card)({
-    maxWidth: 750,
-    margin: "auto",
-    marginBottom: "3em",
+    margin: "1em",
 });
 
 const NewsCard = ({ article }) => {
@@ -16,10 +14,31 @@ const NewsCard = ({ article }) => {
         <ArticleCard>
             <CardActionArea href={article.url} target="_blank">
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        sx={{
+                            // max number of lines (2)
+                            display: "-webkit-box",
+                            overflow: "hidden",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                        }}
+                    >
                         {article.title}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                            // max number of lines (2)
+                            display: "-webkit-box",
+                            overflow: "hidden",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                        }}
+                    >
                         {article.article}
                     </Typography>
                 </CardContent>
