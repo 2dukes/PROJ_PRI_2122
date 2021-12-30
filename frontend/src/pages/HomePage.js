@@ -6,7 +6,7 @@ import { styled } from "@mui/material/styles";
 import SearchFilters from "../components/HomePage/SearchFilters";
 import SearchResults from "../components/HomePage/SearchResults";
 
-const Search = styled(Paper)({
+const Search = styled(Paper)(({ theme }) => ({
     width: "100%",
     position: "relative",
     border: "1px solid",
@@ -17,7 +17,8 @@ const Search = styled(Paper)({
     top: "25%",
     float: "right",
     right: 0,
-});
+    marginTop: "1em",
+}));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
@@ -35,7 +36,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const PageHeader = styled("div")({
-    margin: "6em 1em 0 1em",
+    margin: "5em 1em 0 1em",
     display: "flex",
     alignItems: "center",
 });
@@ -123,7 +124,7 @@ const SearchResultsPage = () => {
             <PageHeader>
                 <Grid container sx={{ alignItems: "center" }}>
                     <Grid item sm={5} md={3}>
-                        <Typography variant="h3" display="inline">
+                        <Typography variant="h3" display="inline" sx={{ marginTop: "1em" }}>
                             Crypto Search
                         </Typography>
                     </Grid>
