@@ -14,10 +14,6 @@ const Search = styled(Paper)(({ theme }) => ({
     "&:hover": {
         border: "1px solid black",
     },
-    top: "25%",
-    float: "right",
-    right: 0,
-    marginTop: "1em",
 }));
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
@@ -36,7 +32,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const PageHeader = styled("div")({
-    margin: "5em 1em 0 1em",
+    margin: "2em 1em 0 1em",
     display: "flex",
     alignItems: "center",
 });
@@ -123,7 +119,7 @@ const SearchResultsPage = () => {
         <Fragment>
             <PageHeader>
                 <Grid container sx={{ alignItems: "center" }}>
-                    <Grid item sm={5} md={3}>
+                    <Grid item sm={5} md={3} textAlign="center">
                         <Typography variant="h3" display="inline" sx={{ marginTop: "1em" }}>
                             Crypto Search
                         </Typography>

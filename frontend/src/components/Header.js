@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 const Header = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="absolute">
+            <AppBar position="static">
                 <Toolbar>
                     <MenuItem key={"Crypto Ledger"} component={Link} to="/">
                         <Typography textAlign="center">{"Crypto Ledger"}</Typography>

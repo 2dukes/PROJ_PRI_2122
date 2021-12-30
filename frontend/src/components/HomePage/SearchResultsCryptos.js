@@ -15,7 +15,7 @@ const SearchResultsCryptos = ({ cryptos }) => {
 
     return (
         <Fragment>
-            <Typography gutterBottom variant="h4">
+            <Typography gutterBottom variant="h4" marginLeft=".5em">
                 Cryptocurrencies
             </Typography>
             <Stack>

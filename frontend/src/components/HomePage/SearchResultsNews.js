@@ -19,7 +19,7 @@ const SearchResultsNews = ({ articles }) => {
 
     return (
         <Fragment>
-            <Typography gutterBottom variant="h4">
+            <Typography gutterBottom variant="h4" marginLeft=".5em">
                 News
             </Typography>
             <NewsContainer>

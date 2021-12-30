@@ -260,7 +260,7 @@ const SearchFilters = () => {
                     <TextInput value={currentPrice} setValue={setCurrentPrice} unit="$" />
                 </OptionDiv>
                 <OptionDiv>
-                    <Typography color="gray">Market Cap</Typography>
+                    <Typography color="gray">Market Cap (Billion)</Typography>
                     <TextInput value={marketCap} setValue={setMarketCap} unit="$" />
                 </OptionDiv>
             </PageBody>
