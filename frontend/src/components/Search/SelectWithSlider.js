@@ -2,7 +2,8 @@ import { Fragment, memo } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import { styled } from "@mui/material/styles";
-import { Slider, Select, MenuItem, Stack, Button } from "@mui/material";
+import { Slider, Select, MenuItem, Stack, IconButton } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const CustomSlider = styled(Slider)({
     "@media(max-width: 1536px)": {
@@ -69,8 +70,7 @@ const SelectWithSlider = ({
                     ))}
                     {numMoreClicks < 3 && (
                         <Stack spacing={2} direction="row">
-                            <Button
-                                variant="text"
+                            <IconButton
                                 onClick={onMoreClick(
                                     numMoreClicks,
                                     selectValues,
@@ -79,8 +79,8 @@ const SelectWithSlider = ({
                                 )}
                                 sx={{ margin: "auto" }}
                             >
-                                More
-                            </Button>
+                                <AddCircleIcon fontSize="large" color="primary" />
+                            </IconButton>
                         </Stack>
                     )}
                 </Box>

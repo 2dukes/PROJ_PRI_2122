@@ -121,10 +121,10 @@ const SearchResultsPage = () => {
     return (
         <Fragment>
             <PageHeader>
-                <Grid container>
+                <Grid container sx={{ alignItems: "center" }}>
                     <Grid item sm={5} md={3}>
-                        <Typography variant="h3" display="inline" width="50%">
-                            Search Results
+                        <Typography variant="h3" display="inline">
+                            Crypto Search
                         </Typography>
                     </Grid>
                     <Grid item sm={7} md={9}>

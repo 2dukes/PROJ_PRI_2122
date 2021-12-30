@@ -2,7 +2,8 @@ import { Fragment, memo } from "react";
 import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import { styled } from "@mui/material/styles";
-import { Select, MenuItem, Stack, Button, OutlinedInput } from "@mui/material";
+import { Select, MenuItem, Stack, IconButton, OutlinedInput } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const CustomFormControl = styled(FormControl)({
     marginBottom: "1em",
@@ -48,13 +49,13 @@ const SelectWithInputs = ({
             ))}
             {numMoreClicks < 3 && (
                 <Stack spacing={2} direction="row">
-                    <Button
-                        variant="text"
+                    <IconButton
+                        variant="outlined"
                         onClick={onMoreClick(numMoreClicks, selectValues, setMoreClick, setSelectValues)}
-                        sx={{ margin: "auto" }}
+                        sx={{ margin: "auto", borderRadius: "10%" }}
                     >
-                        More
-                    </Button>
+                        <AddCircleIcon fontSize="large" color="primary" />
+                    </IconButton>
                 </Stack>
             )}
         </Box>
