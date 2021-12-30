@@ -17,7 +17,7 @@ import { getCategories } from "../../services/getCategories";
 import { getHashingAlgorithms } from "../../services/getHashingAlgorithms";
 
 const PageBody = styled("div")({
-    margin: "1em 3em 0 2em",
+    // margin: "1em 3em 0 2em",
 });
 
 const OptionDiv = styled("div")({

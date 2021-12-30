@@ -22,8 +22,6 @@ import CryptoPriceChange from "../components/Crypto/CryptoPriceChange";
 
 const PageBody = styled("div")({
     margin: "6em 3em 0 3em",
-    // height: "80vh",
-    // overflowY: "auto",
 });
 
 const Loading = styled("div")({

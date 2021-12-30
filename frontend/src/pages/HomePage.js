@@ -148,10 +148,10 @@ const SearchResultsPage = () => {
             </PageHeader>
 
             <Grid container>
-                <Grid item md={3}>
+                <Grid item sm={5} md={3}>
                     <SearchFilters />
                 </Grid>
-                <Grid item md={9}>
+                <Grid item sm={7} md={9}>
                     <SearchResults
                         searchResultsCryptos={searchResultsCryptos}
                         searchResultsArticles={articles}

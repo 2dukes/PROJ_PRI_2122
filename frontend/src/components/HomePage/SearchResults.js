@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Stack, Pagination, Typography } from "@mui/material";
+import React from "react";
+import { Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import SearchResultsCryptos from "./SearchResultsCryptos";
