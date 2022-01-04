@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Fragment } from "react";
+import React, { useEffect, useCallback, Fragment } from "react";
 import { styled } from "@mui/material/styles";
 import {
     TextField,
@@ -27,25 +27,34 @@ const OptionDiv = styled("div")({
     marginTop: ".75em",
 });
 
-const SearchFilters = () => {
-    const [results, setResults] = useState([true, true]);
-    const [blockTime, setBlockTime] = useState([0, 1]);
-    const [scores, setScores] = useState([
-        [0, 100],
-        [0, 100],
-        [0, 100],
-    ]);
-    const [scoreLabelValues, setScoreLabels] = useState([1]);
-    const [numScoreClicks, setNumScoreClicks] = useState(1);
-    const [priceValues, setPriceValues] = useState(["", "", ""]);
-    const [priceChangeLabelValues, setPriceChangeLabelValues] = useState([1]);
-    const [numPriceChangeClicks, setPriceChangeClicks] = useState(1);
-    const [allTimeHigh, setAllTimeHigh] = useState("");
-    const [currentPrice, setCurrentPrice] = useState("");
-    const [marketCap, setMarketCap] = useState("");
-    const [categories, setCategories] = useState([]);
-    const [hashingAlgorithms, setHashingAlgorithms] = useState([]);
-
+const SearchFilters = ({
+    results,
+    setResults,
+    blockTime,
+    setBlockTime,
+    scores,
+    setScores,
+    scoreLabelValues,
+    setScoreLabels,
+    numScoreClicks,
+    setNumScoreClicks,
+    priceValues,
+    setPriceValues,
+    priceChangeLabelValues,
+    setPriceChangeLabelValues,
+    numPriceChangeClicks,
+    setPriceChangeClicks,
+    allTimeHigh,
+    setAllTimeHigh,
+    currentPrice,
+    setCurrentPrice,
+    marketCap,
+    setMarketCap,
+    categories,
+    setCategories,
+    hashingAlgorithms,
+    setHashingAlgorithms,
+}) => {
     useEffect(() => {
         getCategories()
             .then((data) => {
@@ -84,7 +93,7 @@ const SearchFilters = () => {
             .catch((err) => {
                 console.error(err);
             });
-    }, []);
+    }, [setCategories, setHashingAlgorithms]);
 
     const handleBlockTimeChange = useCallback(
         (event, newValue, activeThumb) => {
@@ -93,7 +102,7 @@ const SearchFilters = () => {
             if (activeThumb === 0) setBlockTime([Math.min(newValue[0], blockTime[1] - 1), blockTime[1]]);
             else setBlockTime([blockTime[0], Math.max(newValue[1], blockTime[0] + 1)]);
         },
-        [blockTime]
+        [blockTime, setBlockTime]
     );
 
     const handleMoreClick = useCallback(
@@ -127,7 +136,7 @@ const SearchFilters = () => {
                 setScores(auxScores);
             }
         },
-        [scores]
+        [scores, setScores]
     );
 
     const handleLabelsChange = useCallback(
@@ -149,7 +158,7 @@ const SearchFilters = () => {
             auxPriceValues[idx] = event.target.value;
             setPriceValues(auxPriceValues);
         },
-        [priceValues]
+        [priceValues, setPriceValues]
     );
 
     return (

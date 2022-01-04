@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Typography, InputBase, Grid, Paper } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
+import { makeSearch } from "../services/makeSearch";
 import SearchFilters from "../components/HomePage/SearchFilters";
 import SearchResults from "../components/HomePage/SearchResults";
 
@@ -38,6 +39,25 @@ const PageHeader = styled("div")({
 });
 
 const SearchResultsPage = () => {
+    const [results, setResults] = useState([true, true]);
+    const [blockTime, setBlockTime] = useState([0, 1]);
+    const [scores, setScores] = useState([
+        [0, 100],
+        [0, 100],
+        [0, 100],
+    ]);
+    const [scoreLabelValues, setScoreLabels] = useState([1]);
+    const [numScoreClicks, setNumScoreClicks] = useState(1);
+    const [priceValues, setPriceValues] = useState(["", "", ""]);
+    const [priceChangeLabelValues, setPriceChangeLabelValues] = useState([1]);
+    const [numPriceChangeClicks, setPriceChangeClicks] = useState(1);
+    const [allTimeHigh, setAllTimeHigh] = useState("");
+    const [currentPrice, setCurrentPrice] = useState("");
+    const [marketCap, setMarketCap] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [hashingAlgorithms, setHashingAlgorithms] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
+
     const searchResultsCryptos = [
         {
             id: 438,
@@ -115,6 +135,34 @@ const SearchResultsPage = () => {
         },
     ];
 
+    const searchSubmit = (event) => {
+        event.preventDefault();
+
+        console.log(searchInput);
+        makeSearch({
+            searchInput,
+            results,
+            blockTime,
+            scores,
+            scoreLabelValues,
+            numScoreClicks,
+            priceValues,
+            priceChangeLabelValues,
+            numPriceChangeClicks,
+            allTimeHigh,
+            currentPrice,
+            marketCap,
+            categories,
+            hashingAlgorithms,
+        })
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    };
+
     return (
         <Fragment>
             <PageHeader>
@@ -126,11 +174,13 @@ const SearchResultsPage = () => {
                     </Grid>
                     <Grid item sm={7} md={9}>
                         <Search elevation={0}>
-                            <form>
+                            <form onSubmit={searchSubmit}>
                                 <SearchIconWrapper>
                                     <SearchIcon />
                                 </SearchIconWrapper>
                                 <StyledInputBase
+                                    value={searchInput}
+                                    onChange={(event) => setSearchInput(event.target.value)}
                                     placeholder="Search…"
                                     inputProps={{ "aria-label": "search" }}
                                 />
@@ -141,7 +191,34 @@ const SearchResultsPage = () => {
             </PageHeader>
             <Grid container sx={{ marginTop: "2em" }}>
                 <Grid item sm={5} md={3}>
-                    <SearchFilters />
+                    <SearchFilters
+                        results={results}
+                        setResults={setResults}
+                        blockTime={blockTime}
+                        setBlockTime={setBlockTime}
+                        scores={scores}
+                        setScores={setScores}
+                        scoreLabelValues={scoreLabelValues}
+                        setScoreLabels={setScoreLabels}
+                        numScoreClicks={numScoreClicks}
+                        setNumScoreClicks={setNumScoreClicks}
+                        priceValues={priceValues}
+                        setPriceValues={setPriceValues}
+                        priceChangeLabelValues={priceChangeLabelValues}
+                        setPriceChangeLabelValues={setPriceChangeLabelValues}
+                        numPriceChangeClicks={numPriceChangeClicks}
+                        setPriceChangeClicks={setPriceChangeClicks}
+                        allTimeHigh={allTimeHigh}
+                        setAllTimeHigh={setAllTimeHigh}
+                        currentPrice={currentPrice}
+                        setCurrentPrice={setCurrentPrice}
+                        marketCap={marketCap}
+                        setMarketCap={setMarketCap}
+                        categories={categories}
+                        setCategories={setCategories}
+                        hashingAlgorithms={hashingAlgorithms}
+                        setHashingAlgorithms={setHashingAlgorithms}
+                    />
                 </Grid>
                 <Grid item sm={7} md={9}>
                     <SearchResults
