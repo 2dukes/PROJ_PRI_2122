@@ -14,6 +14,8 @@ const assembleQueryJSON = ({
     selectedCategories,
     selectedAlgorithms,
 }) => {
+    if (!results[0] && !results[1]) return {};
+
     let mustQuery = [];
 
     //selectedCategories
@@ -39,7 +41,7 @@ const assembleQueryJSON = ({
     for (const algorithm of selectedAlgorithms) {
         shouldAlgorithmsQuery.push({
             term: {
-                "hashing_algorithm.keyword": algorithm 
+                "hashing_algorithm.keyword": algorithm,
             },
         });
     }
@@ -127,13 +129,34 @@ const assembleQueryJSON = ({
     });
 
     // searchInput
-    if (searchInput)
-        mustQuery.push({
+    if (searchInput) {
+        let ftsShouldQuery = [];
+        ftsShouldQuery.push({
             multi_match: {
                 query: searchInput,
                 fields: ["id", "description"],
             },
         });
+
+        if (results[1])
+            ftsShouldQuery.push({
+                nested: {
+                    path: "news",
+                    query: {
+                        multi_match: {
+                            query: searchInput,
+                            fields: ["news.title", "news.article"],
+                        },
+                    },
+                },
+            });
+
+        mustQuery.push({
+            bool: {
+                should: ftsShouldQuery,
+            },
+        });
+    }
 
     console.log(mustQuery);
 

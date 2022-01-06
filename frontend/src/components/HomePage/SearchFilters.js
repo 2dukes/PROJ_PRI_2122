@@ -204,10 +204,10 @@ const SearchFilters = ({
                     <Select value={sortBy} setValue={setSortBy} />
                 </OptionDiv>
                 <OptionDiv>
-                    <Typography color="gray">Block Time in Minutes (0-10)</Typography>
+                    <Typography color="gray">Block Time in Minutes (0-1500)</Typography>
                     <SelectWithSlider
                         minValue={0}
-                        maxValue={10}
+                        maxValue={1500} //fetch max value from backend
                         sliderValues={blockTime}
                         onSliderChange={handleBlockTimeChange}
                     />
@@ -243,10 +243,10 @@ const SearchFilters = ({
                     />
                 </OptionDiv>
                 <OptionDiv>
-                    <Typography color="gray">Score (%)</Typography>
+                    <Typography color="gray">Score</Typography>
                     <SelectWithSlider
                         minValue={0}
-                        maxValue={100}
+                        maxValue={200} //fetch max value from backend
                         hasSelect={true}
                         numMoreClicks={numScoreClicks}
                         onMoreClick={handleMoreClick}

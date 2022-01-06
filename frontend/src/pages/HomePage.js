@@ -41,11 +41,11 @@ const PageHeader = styled("div")({
 const SearchResultsPage = () => {
     const [sortBy, setSortBy] = useState("sortByScoreDesc");
     const [results, setResults] = useState([true, true]);
-    const [blockTime, setBlockTime] = useState([0, 10]);
+    const [blockTime, setBlockTime] = useState([0, 1500]); //fetch max value from backend
     const [scores, setScores] = useState([
-        [0, 100],
-        [0, 100],
-        [0, 100],
+        [0, 200], //fetch max value from backend
+        [0, 200], //fetch max value from backend
+        [0, 200], //fetch max value from backend
     ]);
     const [scoreLabelValues, setScoreLabels] = useState([1]);
     const [numScoreClicks, setNumScoreClicks] = useState(1);
