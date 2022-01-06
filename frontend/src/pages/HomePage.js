@@ -40,7 +40,7 @@ const PageHeader = styled("div")({
 
 const SearchResultsPage = () => {
     const [sortBy, setSortBy] = useState("sortByScoreDesc");
-    const [results, setResults] = useState([true, true]);
+    const [results, setResults] = useState({"showCryptos": true, "showNews": true});
     const [blockTime, setBlockTime] = useState("");
     const [scores, setScores] = useState([
         [0, 105],
