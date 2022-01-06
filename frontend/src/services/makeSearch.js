@@ -171,21 +171,10 @@ const assembleQueryJSON = ({
         },
     };
 
-    switch (sortBy) {
-        case "sortByScoreAsc":
-            jsonQuery.sort = {
-                _score: "asc",
-            };
-            break;
-        case "sortByScoreDesc":
-            jsonQuery.sort = {
-                _score: "desc",
-            };
-            break;
-        default:
-            console.log("Invalid value for sortBy!");
-            break;
-    }
+  jsonQuery.sort = {
+      _score: sortBy === "sortByScoreAsc" ? "asc" : "desc",
+  };
+
 
     return jsonQuery;
 };
