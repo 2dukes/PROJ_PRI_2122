@@ -11,12 +11,44 @@ const assembleQueryJSON = ({
     allTimeHigh,
     currentPrice,
     marketCap,
-    categories,
-    hashingAlgorithms,
+    selectedCategories,
+    selectedAlgorithms,
 }) => {
     let mustQuery = [];
 
-    
+    //selectedCategories
+    let shouldCategoriesQuery = [];
+    for (const category of selectedCategories) {
+        shouldCategoriesQuery.push({
+            match: {
+                categories: {
+                    query: category,
+                },
+            },
+        });
+    }
+    if (shouldCategoriesQuery.length > 0)
+        mustQuery.push({
+            bool: {
+                should: shouldCategoriesQuery,
+            },
+        });
+
+    //selectedAlgorithms
+    let shouldAlgorithmsQuery = [];
+    for (const algorithm of selectedAlgorithms) {
+        shouldAlgorithmsQuery.push({
+            term: {
+                "hashing_algorithm.keyword": algorithm 
+            },
+        });
+    }
+    if (shouldAlgorithmsQuery.length > 0)
+        mustQuery.push({
+            bool: {
+                should: shouldAlgorithmsQuery,
+            },
+        });
 
     //priceValues and priceChangeLabelValues
     let priceLabelMapping = { 3: "7d", 2: "30d", 1: "1y" };
@@ -25,14 +57,14 @@ const assembleQueryJSON = ({
         let label = priceLabelMapping[priceChangeLabelValues[i]];
         let attribute = "price_change_percentage_" + label;
 
-        if (!label) continue;
+        if (!value) continue;
 
         mustQuery.push({
             range: {
                 [attribute]: {
-                    gte: value
-                }
-            }
+                    gte: value,
+                },
+            },
         });
     }
 

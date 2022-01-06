@@ -55,8 +55,10 @@ const SearchFilters = ({
     setMarketCap,
     categories,
     setCategories,
+    setSelectedCategories,
     hashingAlgorithms,
     setHashingAlgorithms,
+    setSelectedAlgorithms
 }) => {
     useEffect(() => {
         getCategories()
@@ -220,6 +222,7 @@ const SearchFilters = ({
                         renderInput={(params) => (
                             <TextField {...params} label="Categories" placeholder="Select categories" />
                         )}
+                        onChange={(event, value) => setSelectedCategories(value)}
                     />
                 </OptionDiv>
                 <OptionDiv>
@@ -236,6 +239,7 @@ const SearchFilters = ({
                                 placeholder="Select algorithms"
                             />
                         )}
+                        onChange={(event, value) => setSelectedAlgorithms(value)}
                     />
                 </OptionDiv>
                 <OptionDiv>
