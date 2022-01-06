@@ -228,7 +228,7 @@ const SearchFilters = ({
                     />
                 </OptionDiv>
                 <OptionDiv>
-                    <Typography color="gray">Score (%)</Typography>
+                    <Typography color="gray">Score</Typography>
                     <SelectWithSlider
                         minValue={0}
                         maxValue={105}
