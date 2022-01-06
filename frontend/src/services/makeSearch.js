@@ -171,10 +171,9 @@ const assembleQueryJSON = ({
         },
     };
 
-  jsonQuery.sort = {
-      _score: sortBy === "sortByScoreAsc" ? "asc" : "desc",
-  };
-
+    jsonQuery.sort = {
+        _score: sortBy === "sortByScoreAsc" ? "asc" : "desc",
+    };
 
     return jsonQuery;
 };
