@@ -14,132 +14,123 @@ const assembleQueryJSON = ({
     selectedCategories,
     selectedAlgorithms,
 }) => {
-    if (!results[0] && !results[1]) return {};
-
     let mustQuery = [];
 
-    //selectedCategories
-    let shouldCategoriesQuery = [];
-    for (const category of selectedCategories) {
-        shouldCategoriesQuery.push({
-            match: {
-                categories: {
-                    query: category,
+    if (results[0]) {
+        //selectedCategories
+        let shouldCategoriesQuery = [];
+        for (const category of selectedCategories) {
+            shouldCategoriesQuery.push({
+                match: {
+                    categories: {
+                        query: category,
+                    },
                 },
-            },
-        });
-    }
-    if (shouldCategoriesQuery.length > 0)
-        mustQuery.push({
-            bool: {
-                should: shouldCategoriesQuery,
-            },
-        });
-
-    //selectedAlgorithms
-    let shouldAlgorithmsQuery = [];
-    for (const algorithm of selectedAlgorithms) {
-        shouldAlgorithmsQuery.push({
-            term: {
-                "hashing_algorithm.keyword": algorithm,
-            },
-        });
-    }
-    if (shouldAlgorithmsQuery.length > 0)
-        mustQuery.push({
-            bool: {
-                should: shouldAlgorithmsQuery,
-            },
-        });
-
-    //priceValues and priceChangeLabelValues
-    let priceLabelMapping = { 3: "7d", 2: "30d", 1: "1y" };
-    for (let i = 0; i < priceValues.length; i++) {
-        let value = priceValues[i];
-        let label = priceLabelMapping[priceChangeLabelValues[i]];
-        let attribute = "price_change_percentage_" + label;
-
-        if (!value) continue;
-
-        mustQuery.push({
-            range: {
-                [attribute]: {
-                    gte: value,
+            });
+        }
+        if (shouldCategoriesQuery.length > 0)
+            mustQuery.push({
+                bool: {
+                    should: shouldCategoriesQuery,
                 },
-            },
-        });
-    }
+            });
 
-    // allTimeHigh
-    if (allTimeHigh)
-        mustQuery.push({
-            range: {
-                "all_time_high(usd)": {
-                    gte: allTimeHigh,
+        //selectedAlgorithms
+        let shouldAlgorithmsQuery = [];
+        for (const algorithm of selectedAlgorithms) {
+            shouldAlgorithmsQuery.push({
+                term: {
+                    "hashing_algorithm.keyword": algorithm,
                 },
-            },
-        });
-
-    // currentPrice
-    if (currentPrice)
-        mustQuery.push({
-            range: {
-                current_price: {
-                    gte: currentPrice,
+            });
+        }
+        if (shouldAlgorithmsQuery.length > 0)
+            mustQuery.push({
+                bool: {
+                    should: shouldAlgorithmsQuery,
                 },
-            },
-        });
+            });
 
-    // marketCap
-    if (marketCap)
-        mustQuery.push({
-            range: {
-                market_cap: {
-                    gte: marketCap,
+        //priceValues and priceChangeLabelValues
+        let priceLabelMapping = { 3: "7d", 2: "30d", 1: "1y" };
+        for (let i = 0; i < priceValues.length; i++) {
+            let value = priceValues[i];
+            let label = priceLabelMapping[priceChangeLabelValues[i]];
+            let attribute = "price_change_percentage_" + label;
+
+            if (!value) continue;
+
+            mustQuery.push({
+                range: {
+                    [attribute]: {
+                        gte: value,
+                    },
                 },
-            },
-        });
+            });
+        }
 
-    // scores and scoreLabelValues
-    let scoreLabelMapping = { 3: "liquidity", 2: "community", 1: "developer" };
-    for (let i = 0; i < scores.length; i++) {
-        let score = scores[i];
-        let label = scoreLabelMapping[scoreLabelValues[i]];
-        let attribute = label + "_score";
-
-        if (!label) continue;
-
-        mustQuery.push({
-            range: {
-                [attribute]: {
-                    gte: score[0],
-                    lte: score[1],
+        // allTimeHigh
+        if (allTimeHigh)
+            mustQuery.push({
+                range: {
+                    "all_time_high(usd)": {
+                        gte: allTimeHigh,
+                    },
                 },
-            },
-        });
-    }
+            });
 
-    // blockTime
-    mustQuery.push({
-        script: {
+        // currentPrice
+        if (currentPrice)
+            mustQuery.push({
+                range: {
+                    current_price: {
+                        gte: currentPrice,
+                    },
+                },
+            });
+
+        // marketCap
+        if (marketCap)
+            mustQuery.push({
+                range: {
+                    market_cap: {
+                        gte: marketCap,
+                    },
+                },
+            });
+
+        // scores and scoreLabelValues
+        let scoreLabelMapping = { 3: "liquidity", 2: "community", 1: "developer" };
+        for (let i = 0; i < scores.length; i++) {
+            let score = scores[i];
+            let label = scoreLabelMapping[scoreLabelValues[i]];
+            let attribute = label + "_score";
+
+            if (!label) continue;
+
+            mustQuery.push({
+                range: {
+                    [attribute]: {
+                        gte: score[0],
+                        lte: score[1],
+                    },
+                },
+            });
+        }
+
+        // blockTime
+        mustQuery.push({
             script: {
-                source: `doc['block_time_in_minutes'].value >= ${parseInt(blockTime)}`,
+                script: {
+                    source: `doc['block_time_in_minutes'].value >= ${parseInt(blockTime)}`,
+                },
             },
-        },
-    });
-
+        });
+    }
     // searchInput
     if (searchInput) {
-        let ftsShouldQuery = [];
-        ftsShouldQuery.push({
-            multi_match: {
-                query: searchInput,
-                fields: ["id", "description"],
-            },
-        });
-
-        if (results[1])
-            ftsShouldQuery.push({
+        let ftsShouldQuery = [
+            {
                 nested: {
                     path: "news",
                     query: {
@@ -148,6 +139,15 @@ const assembleQueryJSON = ({
                             fields: ["news.title", "news.article"],
                         },
                     },
+                },
+            },
+        ];
+
+        if (results[0])
+            ftsShouldQuery.push({
+                multi_match: {
+                    query: searchInput,
+                    fields: ["id", "description"],
                 },
             });
 
@@ -168,6 +168,7 @@ const assembleQueryJSON = ({
             },
         },
     };
+
     return jsonQuery;
 };
 
