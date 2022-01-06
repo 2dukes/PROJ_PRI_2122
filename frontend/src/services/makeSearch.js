@@ -6,10 +6,8 @@ const assembleQueryJSON = ({
     blockTime,
     scores,
     scoreLabelValues,
-    numScoreClicks,
     priceValues,
     priceChangeLabelValues,
-    numPriceChangeClicks,
     allTimeHigh,
     currentPrice,
     marketCap,
@@ -17,6 +15,75 @@ const assembleQueryJSON = ({
     hashingAlgorithms,
 }) => {
     let mustQuery = [];
+
+    
+
+    //priceValues and priceChangeLabelValues
+    let priceLabelMapping = { 3: "7d", 2: "30d", 1: "1y" };
+    for (let i = 0; i < priceValues.length; i++) {
+        let value = priceValues[i];
+        let label = priceLabelMapping[priceChangeLabelValues[i]];
+        let attribute = "price_change_percentage_" + label;
+
+        if (!label) continue;
+
+        mustQuery.push({
+            range: {
+                [attribute]: {
+                    gte: value
+                }
+            }
+        });
+    }
+
+    // allTimeHigh
+    if (allTimeHigh)
+        mustQuery.push({
+            range: {
+                "all_time_high(usd)": {
+                    gte: allTimeHigh,
+                },
+            },
+        });
+
+    // currentPrice
+    if (currentPrice)
+        mustQuery.push({
+            range: {
+                current_price: {
+                    gte: currentPrice,
+                },
+            },
+        });
+
+    // marketCap
+    if (marketCap)
+        mustQuery.push({
+            range: {
+                market_cap: {
+                    gte: marketCap,
+                },
+            },
+        });
+
+    // scores and scoreLabelValues
+    let scoreLabelMapping = { 3: "liquidity", 2: "community", 1: "developer" };
+    for (let i = 0; i < scores.length; i++) {
+        let score = scores[i];
+        let label = scoreLabelMapping[scoreLabelValues[i]];
+        let attribute = label + "_score";
+
+        if (!label) continue;
+
+        mustQuery.push({
+            range: {
+                [attribute]: {
+                    gte: score[0],
+                    lte: score[1],
+                },
+            },
+        });
+    }
 
     // blockTime
     mustQuery.push({
@@ -26,7 +93,7 @@ const assembleQueryJSON = ({
             },
         },
     });
-    
+
     // searchInput
     if (searchInput)
         mustQuery.push({
@@ -35,6 +102,8 @@ const assembleQueryJSON = ({
                 fields: ["id", "description"],
             },
         });
+
+    console.log(mustQuery);
 
     let jsonQuery = {
         size: 100,
