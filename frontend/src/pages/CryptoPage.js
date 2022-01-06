@@ -11,6 +11,7 @@ import {
     Stack,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Markup } from "interweave";
 
 import { getCrypto } from "../services/getCrypto";
 import Crypto from "../components/Crypto";
@@ -154,7 +155,7 @@ const CryptoPage = () => {
             <SectionDivider />
             <CryptoDescription>
                 <h3>Description</h3>
-                {crypto.description}
+                <Markup content={crypto.description} />
             </CryptoDescription>
             <SectionDivider />
             <MoreInfo>
