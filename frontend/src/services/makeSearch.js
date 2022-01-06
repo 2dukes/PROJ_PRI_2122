@@ -16,7 +16,7 @@ const assembleQueryJSON = ({
 }) => {
     let mustQuery = [];
 
-    if (results[0]) {
+    if (results.showCryptos) {
         //selectedCategories
         let shouldCategoriesQuery = [];
         for (const category of selectedCategories) {
@@ -119,13 +119,14 @@ const assembleQueryJSON = ({
         }
 
         // blockTime
-        mustQuery.push({
-            script: {
+        if (blockTime)
+            mustQuery.push({
                 script: {
-                    source: `doc['block_time_in_minutes'].value >= ${parseInt(blockTime)}`,
+                    script: {
+                        source: `doc['block_time_in_minutes'].value >= ${parseInt(blockTime)}`,
+                    },
                 },
-            },
-        });
+            });
     }
     // searchInput
     if (searchInput) {
@@ -143,7 +144,7 @@ const assembleQueryJSON = ({
             },
         ];
 
-        if (results[0])
+        if (results.showCryptos)
             ftsShouldQuery.push({
                 multi_match: {
                     query: searchInput,
