@@ -40,12 +40,12 @@ const PageHeader = styled("div")({
 
 const SearchResultsPage = () => {
     const [sortBy, setSortBy] = useState("sortByScoreDesc");
-    const [results, setResults] = useState([true, true]);
-    const [blockTime, setBlockTime] = useState([0, 1]);
+    const [results, setResults] = useState({"showCryptos": true, "showNews": true});
+    const [blockTime, setBlockTime] = useState("");
     const [scores, setScores] = useState([
-        [0, 100],
-        [0, 100],
-        [0, 100],
+        [0, 105],
+        [0, 105],
+        [0, 105],
     ]);
     const [scoreLabelValues, setScoreLabels] = useState([1]);
     const [numScoreClicks, setNumScoreClicks] = useState(1);
@@ -56,7 +56,9 @@ const SearchResultsPage = () => {
     const [currentPrice, setCurrentPrice] = useState("");
     const [marketCap, setMarketCap] = useState("");
     const [categories, setCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [hashingAlgorithms, setHashingAlgorithms] = useState([]);
+    const [selectedAlgorithms, setSelectedAlgorithms] = useState([])
     const [searchInput, setSearchInput] = useState("");
 
     const searchResultsCryptos = [
@@ -141,6 +143,7 @@ const SearchResultsPage = () => {
 
         console.log(searchInput);
         makeSearch({
+            sortBy,
             searchInput,
             results,
             blockTime,
@@ -153,8 +156,8 @@ const SearchResultsPage = () => {
             allTimeHigh,
             currentPrice,
             marketCap,
-            categories,
-            hashingAlgorithms,
+            selectedCategories,
+            selectedAlgorithms,
         })
             .then((data) => {
                 console.log(data);
@@ -219,8 +222,12 @@ const SearchResultsPage = () => {
                         setMarketCap={setMarketCap}
                         categories={categories}
                         setCategories={setCategories}
+                        selectedCategories={selectedCategories}
+                        setSelectedCategories={setSelectedCategories}
                         hashingAlgorithms={hashingAlgorithms}
                         setHashingAlgorithms={setHashingAlgorithms}
+                        selectedAlgorithms={selectedAlgorithms}
+                        setSelectedAlgorithms={setSelectedAlgorithms}
                     />
                 </Grid>
                 <Grid item sm={7} md={9}>

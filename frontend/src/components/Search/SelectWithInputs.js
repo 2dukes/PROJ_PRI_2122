@@ -43,7 +43,7 @@ const SelectWithInputs = ({
                         >
                             <MenuItem value={1}>Year</MenuItem>
                             <MenuItem value={2}>Month</MenuItem>
-                            <MenuItem value={3}>Day</MenuItem>
+                            <MenuItem value={3}>Week</MenuItem>
                         </Select>
                     </CustomFormControl>
                 </Fragment>

@@ -1,40 +1,166 @@
 import API_HOSTNAME from "../config";
 
 const assembleQueryJSON = ({
+    sortBy,
     searchInput,
     results,
     blockTime,
     scores,
     scoreLabelValues,
-    numScoreClicks,
     priceValues,
     priceChangeLabelValues,
-    numPriceChangeClicks,
     allTimeHigh,
     currentPrice,
     marketCap,
-    categories,
-    hashingAlgorithms,
+    selectedCategories,
+    selectedAlgorithms,
 }) => {
     let mustQuery = [];
 
-    // blockTime
-    mustQuery.push({
-        script: {
-            script: {
-                source: `doc['block_time_in_minutes'].value >= ${blockTime[0]} && doc['block_time_in_minutes'].value <= ${blockTime[1]}`,
-            },
-        },
-    });
-    
+    if (results.showCryptos) {
+        //selectedCategories
+        let shouldCategoriesQuery = [];
+        for (const category of selectedCategories) {
+            shouldCategoriesQuery.push({
+                match: {
+                    categories: {
+                        query: category,
+                    },
+                },
+            });
+        }
+        if (shouldCategoriesQuery.length > 0)
+            mustQuery.push({
+                bool: {
+                    should: shouldCategoriesQuery,
+                },
+            });
+
+        //selectedAlgorithms
+        let shouldAlgorithmsQuery = [];
+        for (const algorithm of selectedAlgorithms) {
+            shouldAlgorithmsQuery.push({
+                term: {
+                    "hashing_algorithm.keyword": algorithm,
+                },
+            });
+        }
+        if (shouldAlgorithmsQuery.length > 0)
+            mustQuery.push({
+                bool: {
+                    should: shouldAlgorithmsQuery,
+                },
+            });
+
+        //priceValues and priceChangeLabelValues
+        let priceLabelMapping = { 3: "7d", 2: "30d", 1: "1y" };
+        for (let i = 0; i < priceValues.length; i++) {
+            let value = priceValues[i];
+            let label = priceLabelMapping[priceChangeLabelValues[i]];
+            let attribute = "price_change_percentage_" + label;
+
+            if (!value) continue;
+
+            mustQuery.push({
+                range: {
+                    [attribute]: {
+                        gte: value,
+                    },
+                },
+            });
+        }
+
+        // allTimeHigh
+        if (allTimeHigh)
+            mustQuery.push({
+                range: {
+                    "all_time_high(usd)": {
+                        gte: allTimeHigh,
+                    },
+                },
+            });
+
+        // currentPrice
+        if (currentPrice)
+            mustQuery.push({
+                range: {
+                    current_price: {
+                        gte: currentPrice,
+                    },
+                },
+            });
+
+        // marketCap
+        if (marketCap)
+            mustQuery.push({
+                range: {
+                    market_cap: {
+                        gte: marketCap,
+                    },
+                },
+            });
+
+        // scores and scoreLabelValues
+        let scoreLabelMapping = { 3: "liquidity", 2: "community", 1: "developer" };
+        for (let i = 0; i < scores.length; i++) {
+            let score = scores[i];
+            let label = scoreLabelMapping[scoreLabelValues[i]];
+            let attribute = label + "_score";
+
+            if (!label) continue;
+
+            mustQuery.push({
+                range: {
+                    [attribute]: {
+                        gte: score[0],
+                        lte: score[1],
+                    },
+                },
+            });
+        }
+
+        // blockTime
+        if (blockTime)
+            mustQuery.push({
+                script: {
+                    script: {
+                        source: `doc['block_time_in_minutes'].value >= ${parseInt(blockTime)}`,
+                    },
+                },
+            });
+    }
     // searchInput
-    if (searchInput)
+    if (searchInput) {
+        let ftsShouldQuery = [
+            {
+                nested: {
+                    path: "news",
+                    query: {
+                        multi_match: {
+                            query: searchInput,
+                            fields: ["news.title", "news.article"],
+                        },
+                    },
+                },
+            },
+        ];
+
+        if (results.showCryptos)
+            ftsShouldQuery.push({
+                multi_match: {
+                    query: searchInput,
+                    fields: ["id", "description"],
+                },
+            });
+
         mustQuery.push({
-            multi_match: {
-                query: searchInput,
-                fields: ["id", "description"],
+            bool: {
+                should: ftsShouldQuery,
             },
         });
+    }
+
+    console.log(mustQuery);
 
     let jsonQuery = {
         size: 100,
@@ -44,6 +170,11 @@ const assembleQueryJSON = ({
             },
         },
     };
+
+    jsonQuery.sort = {
+        _score: sortBy === "sortByScoreAsc" ? "asc" : "desc",
+    };
+
     return jsonQuery;
 };
 
