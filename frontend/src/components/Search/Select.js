@@ -23,7 +23,6 @@ const SelectWithInputs = ({ value, setValue }) => {
                 >
                     <MenuItem value={"sortByScoreDesc"}>Descending Score</MenuItem>
                     <MenuItem value={"sortByScoreAsc"}>Ascending Score</MenuItem>
-                    <MenuItem value={"sortByID"}>Crypto ID</MenuItem>
                 </Select>
             </CustomFormControl>
         </Box>

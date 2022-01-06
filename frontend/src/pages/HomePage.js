@@ -143,6 +143,7 @@ const SearchResultsPage = () => {
 
         console.log(searchInput);
         makeSearch({
+            sortBy,
             searchInput,
             results,
             blockTime,
