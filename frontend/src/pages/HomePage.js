@@ -39,6 +39,7 @@ const PageHeader = styled("div")({
 });
 
 const SearchResultsPage = () => {
+    const [sortBy, setSortBy] = useState("sortByScoreDesc");
     const [results, setResults] = useState([true, true]);
     const [blockTime, setBlockTime] = useState([0, 1]);
     const [scores, setScores] = useState([
@@ -192,6 +193,8 @@ const SearchResultsPage = () => {
             <Grid container sx={{ marginTop: "2em" }}>
                 <Grid item sm={5} md={3}>
                     <SearchFilters
+                        sortBy={sortBy}
+                        setSortBy={setSortBy}
                         results={results}
                         setResults={setResults}
                         blockTime={blockTime}

@@ -12,6 +12,7 @@ import {
 
 import SelectWithSlider from "../Search/SelectWithSlider";
 import SelectWithInputs from "../Search/SelectWithInputs";
+import Select from "../Search/Select";
 import TextInput from "../Search/TextInput";
 import { getCategories } from "../../services/getCategories";
 import { getHashingAlgorithms } from "../../services/getHashingAlgorithms";
@@ -28,6 +29,8 @@ const OptionDiv = styled("div")({
 });
 
 const SearchFilters = ({
+    sortBy,
+    setSortBy,
     results,
     setResults,
     blockTime,
@@ -193,6 +196,10 @@ const SearchFilters = ({
                             label="News"
                         />
                     </FormGroup>
+                </OptionDiv>
+                <OptionDiv>
+                    <Typography color="gray">Sort By</Typography>
+                    <Select value={sortBy} setValue={setSortBy} />
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">Block Time in Minutes (0-10)</Typography>
