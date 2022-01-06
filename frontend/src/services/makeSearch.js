@@ -121,7 +121,7 @@ const assembleQueryJSON = ({
     mustQuery.push({
         script: {
             script: {
-                source: `doc['block_time_in_minutes'].value >= ${blockTime[0]} && doc['block_time_in_minutes'].value <= ${blockTime[1]}`,
+                source: `doc['block_time_in_minutes'].value >= ${parseInt(blockTime)}`,
             },
         },
     });

@@ -4,7 +4,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
 
-const TextInput = ({ unit, value, setValue }) => {
+const TextInput = ({ unit, value, setValue, adornment }) => {
     return (
         <Box>
             <FormControl variant="outlined" sx={{ width: "100%" }}>
@@ -12,7 +12,7 @@ const TextInput = ({ unit, value, setValue }) => {
                     sx={{ height: "35px" }}
                     value={value}
                     onChange={(event) => setValue(event.target.value)}
-                    startAdornment={<InputAdornment position="start">&gt;</InputAdornment>}
+                    startAdornment={<InputAdornment position="start">{adornment}</InputAdornment>}
                     endAdornment={<InputAdornment position="end">{unit}</InputAdornment>}
                 />
             </FormControl>

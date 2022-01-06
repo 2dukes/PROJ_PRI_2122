@@ -100,16 +100,6 @@ const SearchFilters = ({
             });
     }, [setCategories, setHashingAlgorithms]);
 
-    const handleBlockTimeChange = useCallback(
-        (event, newValue, activeThumb) => {
-            if (!Array.isArray(newValue)) return;
-
-            if (activeThumb === 0) setBlockTime([Math.min(newValue[0], blockTime[1] - 1), blockTime[1]]);
-            else setBlockTime([blockTime[0], Math.max(newValue[1], blockTime[0] + 1)]);
-        },
-        [blockTime, setBlockTime]
-    );
-
     const handleMoreClick = useCallback(
         (moreClicks, selectLabels, setMoreClicks, setSelectLabels) => () => {
             if (moreClicks < 3) {
@@ -204,13 +194,8 @@ const SearchFilters = ({
                     <Select value={sortBy} setValue={setSortBy} />
                 </OptionDiv>
                 <OptionDiv>
-                    <Typography color="gray">Block Time in Minutes (0-10)</Typography>
-                    <SelectWithSlider
-                        minValue={0}
-                        maxValue={10}
-                        sliderValues={blockTime}
-                        onSliderChange={handleBlockTimeChange}
-                    />
+                    <Typography color="gray">Block Time</Typography>
+                    <TextInput value={blockTime} setValue={setBlockTime} adornment="&ge;" unit="min" />
                 </OptionDiv>
                 <OptionDiv>
                     <Autocomplete
@@ -246,7 +231,7 @@ const SearchFilters = ({
                     <Typography color="gray">Score (%)</Typography>
                     <SelectWithSlider
                         minValue={0}
-                        maxValue={100}
+                        maxValue={105}
                         hasSelect={true}
                         numMoreClicks={numScoreClicks}
                         onMoreClick={handleMoreClick}
@@ -273,15 +258,15 @@ const SearchFilters = ({
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">All Time High (USD)</Typography>
-                    <TextInput value={allTimeHigh} setValue={setAllTimeHigh} unit="$" />
+                    <TextInput value={allTimeHigh} setValue={setAllTimeHigh} adornment="&gt;" unit="$" />
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">Current Price</Typography>
-                    <TextInput value={currentPrice} setValue={setCurrentPrice} unit="$" />
+                    <TextInput value={currentPrice} setValue={setCurrentPrice} adornment="&gt;" unit="$" />
                 </OptionDiv>
                 <OptionDiv>
                     <Typography color="gray">Market Cap (Billion)</Typography>
-                    <TextInput value={marketCap} setValue={setMarketCap} unit="$" />
+                    <TextInput value={marketCap} setValue={setMarketCap} adornment="&gt;" unit="$" />
                 </OptionDiv>
             </PageBody>
         </Fragment>
