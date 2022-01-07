@@ -40,7 +40,7 @@ const PageHeader = styled("div")({
 
 const SearchResultsPage = () => {
     const [sortBy, setSortBy] = useState("sortByScoreDesc");
-    const [results, setResults] = useState({"showCryptos": true, "showNews": true});
+    const [results, setResults] = useState({ showCryptos: true, showNews: true });
     const [blockTime, setBlockTime] = useState("");
     const [scores, setScores] = useState([
         [0, 105],
@@ -58,7 +58,7 @@ const SearchResultsPage = () => {
     const [categories, setCategories] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [hashingAlgorithms, setHashingAlgorithms] = useState([]);
-    const [selectedAlgorithms, setSelectedAlgorithms] = useState([])
+    const [selectedAlgorithms, setSelectedAlgorithms] = useState([]);
     const [searchInput, setSearchInput] = useState("");
 
     const searchResultsCryptos = [
@@ -138,33 +138,38 @@ const SearchResultsPage = () => {
         },
     ];
 
-    const searchSubmit = (event) => {
+    const searchSubmit = async (event) => {
         event.preventDefault();
 
+        let response,
+            params = {
+                sortBy,
+                searchInput,
+                results,
+                blockTime,
+                scores,
+                scoreLabelValues,
+                numScoreClicks,
+                priceValues,
+                priceChangeLabelValues,
+                numPriceChangeClicks,
+                allTimeHigh,
+                currentPrice,
+                marketCap,
+                selectedCategories,
+                selectedAlgorithms,
+            };
+
         console.log(searchInput);
-        makeSearch({
-            sortBy,
-            searchInput,
-            results,
-            blockTime,
-            scores,
-            scoreLabelValues,
-            numScoreClicks,
-            priceValues,
-            priceChangeLabelValues,
-            numPriceChangeClicks,
-            allTimeHigh,
-            currentPrice,
-            marketCap,
-            selectedCategories,
-            selectedAlgorithms,
-        })
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
+
+        if (results.showCryptos && results.showNews)
+            response = await Promise.all([
+                makeSearch({ ...params, results: { showCryptos: false, showNews: true } }),
+                makeSearch({ ...params, results: { showCryptos: true, showNews: false } }),
+            ]);
+        else response = await makeSearch(params);
+
+        console.log(response);
     };
 
     return (
