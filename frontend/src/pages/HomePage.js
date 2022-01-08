@@ -147,7 +147,7 @@ const SearchResultsPage = () => {
                     </Grid>
                     <Grid item sm={7} md={9}>
                         <Search elevation={0}>
-                            <form onSubmit={searchSubmit}>
+                            <form id="search-form" onSubmit={searchSubmit}>
                                 <SearchIconWrapper variant="outlined" type="submit">
                                     <SearchIcon />
                                 </SearchIconWrapper>
@@ -198,6 +198,9 @@ const SearchResultsPage = () => {
                         selectedAlgorithms={selectedAlgorithms}
                         setSelectedAlgorithms={setSelectedAlgorithms}
                     />
+                    <IconButton form="search-form" type="submit" sx={{ width: "100%", margin: "1em" }}>
+                        <SearchIcon sx={{ fontSize: "70px" }} />
+                    </IconButton>
                 </Grid>
                 <Grid item sm={7} md={9}>
                     <SearchResults
