@@ -117,10 +117,11 @@ const SearchResultsPage = () => {
             };
 
         if (results.showCryptos && results.showNews) {
-            response = {
-                news: await makeSearch({ ...params, results: { showCryptos: false, showNews: true } }),
-                cryptos: await makeSearch({ ...params, results: { showCryptos: true, showNews: false } }),
-            };
+            response = await Promise.all([
+                makeSearch({ ...params, results: { showCryptos: false, showNews: true } }),
+                makeSearch({ ...params, results: { showCryptos: true, showNews: false } }),
+            ]);
+            response = { news: response[0], cryptos: response[1] };
 
             processCryptosSearchResults({ response });
 
