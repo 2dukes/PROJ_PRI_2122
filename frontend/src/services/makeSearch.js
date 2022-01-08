@@ -165,13 +165,27 @@ const assembleQueryJSON = ({
         });
     }
 
+    let jsonSubQuery = {
+        bool: {
+            must: mustQuery,
+        },
+    };
+
+    if (!searchInput && results.showNews) {
+        jsonSubQuery = {
+            nested: {
+                path: "news",
+                inner_hits: {},
+                query: {
+                    match_all: {},
+                },
+            },
+        };
+    }
+
     let jsonQuery = {
         size: 100,
-        query: {
-            bool: {
-                must: mustQuery,
-            },
-        },
+        query: jsonSubQuery,
     };
 
     jsonQuery._source = !results.showNews;

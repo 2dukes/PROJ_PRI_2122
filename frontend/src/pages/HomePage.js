@@ -77,7 +77,6 @@ const SearchResultsPage = () => {
     };
 
     const processNewsSearchResults = ({ response }) => {
-        console.log(response);
         const newsRawResults = response.news.hits.hits;
         const newsResults = [];
 
