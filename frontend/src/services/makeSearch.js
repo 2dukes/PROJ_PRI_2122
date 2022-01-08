@@ -131,19 +131,24 @@ const assembleQueryJSON = ({
     }
     // searchInput
     if (searchInput) {
-        let ftsShouldQuery = [
-            {
-                nested: {
-                    path: "news",
-                    query: {
-                        multi_match: {
-                            query: searchInput,
-                            fields: ["news.title", "news.article"],
+        let ftsShouldQuery = [];
+
+        if (results.showNews) {
+            ftsShouldQuery = [
+                {
+                    nested: {
+                        path: "news",
+                        inner_hits: {},
+                        query: {
+                            multi_match: {
+                                query: searchInput,
+                                fields: ["news.title", "news.article"],
+                            },
                         },
                     },
                 },
-            },
-        ];
+            ];
+        }
 
         if (results.showCryptos)
             ftsShouldQuery.push({
@@ -170,6 +175,8 @@ const assembleQueryJSON = ({
             },
         },
     };
+
+    jsonQuery._source = !results.showNews;
 
     jsonQuery.sort = {
         _score: sortBy === "sortByScoreAsc" ? "asc" : "desc",
