@@ -184,7 +184,7 @@ const assembleQueryJSON = ({
     }
 
     let jsonQuery = {
-        size: 100,
+        size: 10000,
         query: jsonSubQuery,
     };
 
