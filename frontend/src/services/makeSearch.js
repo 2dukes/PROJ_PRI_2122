@@ -165,8 +165,6 @@ const assembleQueryJSON = ({
         });
     }
 
-    console.log(mustQuery);
-
     let jsonQuery = {
         size: 100,
         query: {
