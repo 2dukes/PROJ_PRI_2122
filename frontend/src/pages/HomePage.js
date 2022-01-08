@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Typography, InputBase, Grid, Paper } from "@mui/material";
+import { Typography, InputBase, Grid, Paper, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { makeSearch } from "../services/makeSearch";
@@ -17,19 +17,12 @@ const Search = styled(Paper)(({ theme }) => ({
     },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
+    padding: theme.spacing(2, 2),
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
 }));
 
 const PageHeader = styled("div")({
@@ -150,7 +143,7 @@ const SearchResultsPage = () => {
                     <Grid item sm={7} md={9}>
                         <Search elevation={0}>
                             <form onSubmit={searchSubmit}>
-                                <SearchIconWrapper>
+                                <SearchIconWrapper variant="outlined" type="submit">
                                     <SearchIcon />
                                 </SearchIconWrapper>
                                 <StyledInputBase
@@ -166,6 +159,7 @@ const SearchResultsPage = () => {
             </PageHeader>
             <Grid container sx={{ marginTop: "2em" }}>
                 <Grid item sm={5} md={3}>
+                    {/* <SearchIcon sx={{ width: "100%", fontSize: "70px" }} /> */}
                     <SearchFilters
                         sortBy={sortBy}
                         setSortBy={setSortBy}
