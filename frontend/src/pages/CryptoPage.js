@@ -22,7 +22,7 @@ import CryptoCategories from "../components/Crypto/CryptoCategories";
 import CryptoPriceChange from "../components/Crypto/CryptoPriceChange";
 
 const PageBody = styled("div")({
-    margin: "6em 3em 0 3em",
+    margin: "3em 3em 0 3em",
 });
 
 const Loading = styled("div")({
