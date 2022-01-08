@@ -206,6 +206,7 @@ const SearchResultsPage = () => {
                     <SearchResults
                         searchResultsCryptos={searchResultsCryptos}
                         searchResultsArticles={searchResultsNews}
+                        showResultsOptions={results}
                     />
                 </Grid>
             </Grid>
