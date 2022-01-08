@@ -58,7 +58,7 @@ const SearchFilters = ({
     setSelectedCategories,
     hashingAlgorithms,
     setHashingAlgorithms,
-    setSelectedAlgorithms
+    setSelectedAlgorithms,
 }) => {
     useEffect(() => {
         getCategories()
@@ -156,13 +156,16 @@ const SearchFilters = ({
         [priceValues, setPriceValues]
     );
 
-    const onSwitchChange = useCallback((selectedIdx, otherIdx) => () => {
-        if (!(results[selectedIdx] && !results[otherIdx])) {
-            let auxResults = {...results}
-            auxResults[selectedIdx] = !auxResults[selectedIdx]
-            setResults(auxResults)
-        }            
-    }, [results, setResults]);
+    const onSwitchChange = useCallback(
+        (selectedIdx, otherIdx) => () => {
+            if (!(results[selectedIdx] && !results[otherIdx])) {
+                let auxResults = { ...results };
+                auxResults[selectedIdx] = !auxResults[selectedIdx];
+                setResults(auxResults);
+            }
+        },
+        [results, setResults]
+    );
 
     return (
         <Fragment>
@@ -197,88 +200,104 @@ const SearchFilters = ({
                     <Typography color="gray">Sort By</Typography>
                     <Select value={sortBy} setValue={setSortBy} />
                 </OptionDiv>
-                {
-                    results.showCryptos && (
-                        <Fragment>
-                            <OptionDiv>
-                                <Typography color="gray">Block Time</Typography>
-                                <TextInput value={blockTime} setValue={setBlockTime} adornment="&ge;" unit="min" />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={categories}
-                                    getOptionLabel={(option) => option}
-                                    filterSelectedOptions
-                                    renderInput={(params) => (
-                                        <TextField {...params} label="Categories" placeholder="Select categories" />
-                                    )}
-                                    onChange={(event, value) => setSelectedCategories(value)}
-                                />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Autocomplete
-                                    multiple
-                                    id="tags-outlined"
-                                    options={hashingAlgorithms}
-                                    getOptionLabel={(option) => option}
-                                    filterSelectedOptions
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Hashing Algorithms"
-                                            placeholder="Select algorithms"
-                                        />
-                                    )}
-                                    onChange={(event, value) => setSelectedAlgorithms(value)}
-                                />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Typography color="gray">Score</Typography>
-                                <SelectWithSlider
-                                    minValue={0}
-                                    maxValue={105}
-                                    hasSelect={true}
-                                    numMoreClicks={numScoreClicks}
-                                    onMoreClick={handleMoreClick}
-                                    setMoreClick={setNumScoreClicks}
-                                    sliderValues={scores}
-                                    onSliderChange={handleScoreChange}
-                                    selectValues={scoreLabelValues}
-                                    onSelectChange={handleLabelsChange}
-                                    setSelectValues={setScoreLabels}
-                                />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Typography color="gray">Price Change Last (%)</Typography>
-                                <SelectWithInputs
-                                    inputValues={priceValues}
-                                    onInputChange={handleInputChange}
-                                    numMoreClicks={numPriceChangeClicks}
-                                    onMoreClick={handleMoreClick}
-                                    setMoreClick={setPriceChangeClicks}
-                                    selectValues={priceChangeLabelValues}
-                                    onSelectChange={handleLabelsChange}
-                                    setSelectValues={setPriceChangeLabelValues}
-                                />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Typography color="gray">All Time High (USD)</Typography>
-                                <TextInput value={allTimeHigh} setValue={setAllTimeHigh} adornment="&gt;" unit="$" />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Typography color="gray">Current Price</Typography>
-                                <TextInput value={currentPrice} setValue={setCurrentPrice} adornment="&gt;" unit="$" />
-                            </OptionDiv>
-                            <OptionDiv>
-                                <Typography color="gray">Market Cap (Billion)</Typography>
-                                <TextInput value={marketCap} setValue={setMarketCap} adornment="&gt;" unit="$" />
-                            </OptionDiv>
-                        </Fragment>
-                    )
-                }
-                
+                {results.showCryptos && (
+                    <Fragment>
+                        <OptionDiv>
+                            <Typography color="gray">Block Time</Typography>
+                            <TextInput
+                                value={blockTime}
+                                setValue={setBlockTime}
+                                adornment="&ge;"
+                                unit="min"
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Autocomplete
+                                multiple
+                                id="tags-outlined"
+                                options={categories}
+                                getOptionLabel={(option) => option}
+                                filterSelectedOptions
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Categories"
+                                        placeholder="Select categories"
+                                    />
+                                )}
+                                onChange={(event, value) => setSelectedCategories(value)}
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Autocomplete
+                                multiple
+                                id="tags-outlined"
+                                options={hashingAlgorithms}
+                                getOptionLabel={(option) => option}
+                                filterSelectedOptions
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Hashing Algorithms"
+                                        placeholder="Select algorithms"
+                                    />
+                                )}
+                                onChange={(event, value) => setSelectedAlgorithms(value)}
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Typography color="gray">Score</Typography>
+                            <SelectWithSlider
+                                minValue={0}
+                                maxValue={105}
+                                hasSelect={true}
+                                numMoreClicks={numScoreClicks}
+                                onMoreClick={handleMoreClick}
+                                setMoreClick={setNumScoreClicks}
+                                sliderValues={scores}
+                                onSliderChange={handleScoreChange}
+                                selectValues={scoreLabelValues}
+                                onSelectChange={handleLabelsChange}
+                                setSelectValues={setScoreLabels}
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Typography color="gray">Price Change Last (%)</Typography>
+                            <SelectWithInputs
+                                inputValues={priceValues}
+                                onInputChange={handleInputChange}
+                                numMoreClicks={numPriceChangeClicks}
+                                onMoreClick={handleMoreClick}
+                                setMoreClick={setPriceChangeClicks}
+                                selectValues={priceChangeLabelValues}
+                                onSelectChange={handleLabelsChange}
+                                setSelectValues={setPriceChangeLabelValues}
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Typography color="gray">All Time High (USD)</Typography>
+                            <TextInput
+                                value={allTimeHigh}
+                                setValue={setAllTimeHigh}
+                                adornment="&gt;"
+                                unit="$"
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Typography color="gray">Current Price</Typography>
+                            <TextInput
+                                value={currentPrice}
+                                setValue={setCurrentPrice}
+                                adornment="&gt;"
+                                unit="$"
+                            />
+                        </OptionDiv>
+                        <OptionDiv>
+                            <Typography color="gray">Market Cap (Billion)</Typography>
+                            <TextInput value={marketCap} setValue={setMarketCap} adornment="&gt;" unit="$" />
+                        </OptionDiv>
+                    </Fragment>
+                )}
             </PageBody>
         </Fragment>
     );

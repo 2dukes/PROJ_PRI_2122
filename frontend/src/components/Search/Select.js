@@ -6,7 +6,7 @@ import { Select, MenuItem } from "@mui/material";
 
 const CustomFormControl = styled(FormControl)({
     marginBottom: "1em",
-    width: "65%",
+    width: "100%",
     "@media(max-width: 1536px)": {
         width: "100%",
     },
