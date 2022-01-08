@@ -23,6 +23,10 @@ const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     padding: theme.spacing(1, 1, 1, 0),
+    width: "90%",
+    [theme.breakpoints.down("md")]: {
+        width: "60%",
+    },
 }));
 
 const PageHeader = styled("div")({
@@ -73,6 +77,7 @@ const SearchResultsPage = () => {
     };
 
     const processNewsSearchResults = ({ response }) => {
+        console.log(response);
         const newsRawResults = response.news.hits.hits;
         const newsResults = [];
 
@@ -159,7 +164,6 @@ const SearchResultsPage = () => {
             </PageHeader>
             <Grid container sx={{ marginTop: "2em" }}>
                 <Grid item sm={5} md={3}>
-                    {/* <SearchIcon sx={{ width: "100%", fontSize: "70px" }} /> */}
                     <SearchFilters
                         sortBy={sortBy}
                         setSortBy={setSortBy}
