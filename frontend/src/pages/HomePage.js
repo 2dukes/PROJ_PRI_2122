@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Typography, InputBase, Grid, Paper, IconButton } from "@mui/material";
+import { Typography, InputBase, Grid, Paper, IconButton, CircularProgress } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import { makeSearch } from "../services/makeSearch";
@@ -40,6 +40,23 @@ const CenterGlass = styled("div")({
     marginBottom: "1em",
 });
 
+const Loading = styled("div")({
+    position: "relative",
+    height: "95vh",
+    textAlign: "center",
+});
+
+const LoadingChild = styled("div")({
+    position: "absolute",
+    height: "25%",
+    width: "25%",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    margin: "auto",
+});
+
 const SearchResultsPage = () => {
     const [sortBy, setSortBy] = useState("sortByScoreDesc");
     const [results, setResults] = useState({ showCryptos: true, showNews: true });
@@ -64,6 +81,7 @@ const SearchResultsPage = () => {
     const [searchInput, setSearchInput] = useState("");
     const [searchResultsCryptos, setSearchResultsCryptos] = useState([]);
     const [searchResultsNews, setSearchResultsNews] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const processCryptosSearchResults = ({ response }) => {
         const cryptoRawResults = response.cryptos.hits.hits;
@@ -98,46 +116,53 @@ const SearchResultsPage = () => {
         setSearchResultsNews(newsResults);
     };
 
-    const searchSubmit = async (event) => {
+    const searchSubmit = (event) => {
         event.preventDefault();
 
-        let response,
-            params = {
-                sortBy,
-                searchInput,
-                results,
-                blockTime,
-                scores,
-                scoreLabelValues,
-                numScoreClicks,
-                priceValues,
-                priceChangeLabelValues,
-                numPriceChangeClicks,
-                allTimeHigh,
-                currentPrice,
-                marketCap,
-                selectedCategories,
-                selectedAlgorithms,
-            };
+        let params = {
+            sortBy,
+            searchInput,
+            results,
+            blockTime,
+            scores,
+            scoreLabelValues,
+            numScoreClicks,
+            priceValues,
+            priceChangeLabelValues,
+            numPriceChangeClicks,
+            allTimeHigh,
+            currentPrice,
+            marketCap,
+            selectedCategories,
+            selectedAlgorithms,
+        };
 
         if (results.showCryptos && results.showNews) {
-            response = await Promise.all([
+            setIsLoading(true);
+            Promise.all([
                 makeSearch({ ...params, results: { showCryptos: false, showNews: true } }),
                 makeSearch({ ...params, results: { showCryptos: true, showNews: false } }),
-            ]);
-            response = { news: response[0], cryptos: response[1] };
+            ]).then((values) => {
+                let response = { news: values[0], cryptos: values[1] };
 
-            processCryptosSearchResults({ response });
-
-            processNewsSearchResults({ response });
+                processCryptosSearchResults({ response });
+                processNewsSearchResults({ response });
+                setIsLoading(false);
+            });
         } else if (results.showCryptos && !results.showNews) {
-            response = { cryptos: await makeSearch(params) };
-
-            processCryptosSearchResults({ response });
+            setIsLoading(true);
+            makeSearch(params).then((values) => {
+                let response = { cryptos: values };
+                processCryptosSearchResults({ response });
+                setIsLoading(false);
+            });
         } else {
-            response = { news: await makeSearch(params) };
-
-            processNewsSearchResults({ response });
+            setIsLoading(true);
+            makeSearch(params).then((values) => {
+                let response = { news: values };
+                processNewsSearchResults({ response });
+                setIsLoading(false);
+            });
         }
     };
 
@@ -210,11 +235,20 @@ const SearchResultsPage = () => {
                     </CenterGlass>
                 </Grid>
                 <Grid item sm={7} md={9}>
-                    <SearchResults
-                        searchResultsCryptos={searchResultsCryptos}
-                        searchResultsArticles={searchResultsNews}
-                        showResultsOptions={results}
-                    />
+                    {isLoading ? (
+                        <Loading>
+                            <LoadingChild>
+                                <CircularProgress />
+                                <h1>Loading...</h1>
+                            </LoadingChild>
+                        </Loading>
+                    ) : (
+                        <SearchResults
+                            searchResultsCryptos={searchResultsCryptos}
+                            searchResultsArticles={searchResultsNews}
+                            showResultsOptions={results}
+                        />
+                    )}
                 </Grid>
             </Grid>
         </Fragment>
