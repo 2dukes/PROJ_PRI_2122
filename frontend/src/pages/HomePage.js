@@ -35,6 +35,11 @@ const PageHeader = styled("div")({
     alignItems: "center",
 });
 
+const CenterGlass = styled("div")({
+    textAlign: "center",
+    marginBottom: "1em",
+});
+
 const SearchResultsPage = () => {
     const [sortBy, setSortBy] = useState("sortByScoreDesc");
     const [results, setResults] = useState({ showCryptos: true, showNews: true });
@@ -198,9 +203,11 @@ const SearchResultsPage = () => {
                         selectedAlgorithms={selectedAlgorithms}
                         setSelectedAlgorithms={setSelectedAlgorithms}
                     />
-                    <IconButton form="search-form" type="submit" sx={{ width: "100%", margin: "1em" }}>
-                        <SearchIcon sx={{ fontSize: "70px" }} />
-                    </IconButton>
+                    <CenterGlass>
+                        <IconButton form="search-form" type="submit">
+                            <SearchIcon sx={{ fontSize: "70px" }} />
+                        </IconButton>
+                    </CenterGlass>
                 </Grid>
                 <Grid item sm={7} md={9}>
                     <SearchResults
