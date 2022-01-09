@@ -137,6 +137,14 @@ const CryptoPage = () => {
         );
     }
 
+    const fortmatCash = (n) => {
+        if (n < 1e3) return n;
+        if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + "K";
+        if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + "M";
+        if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
+        if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
+    };
+
     return (
         <PageBody>
             <CryptoHeader>
@@ -163,18 +171,24 @@ const CryptoPage = () => {
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }}>
                         <TableBody>
-                            <MoreInfoItem title="All Time High" content={crypto.all_time_high} />
-                            <MoreInfoItem title="All Time High Date" content={crypto.all_time_high_date} />
+                            <MoreInfoItem title="All Time High" content={crypto.all_time_high + " $"} />
+                            <MoreInfoItem
+                                title="All Time High Date"
+                                content={new Date(crypto.all_time_high_date).toUTCString()}
+                            />
                             <MoreInfoItem
                                 title="Block Time (Minutes)"
                                 content={crypto.block_time_in_minutes}
                             />
                             <MoreInfoItem title="Community Score" content={crypto.community_score} />
                             <MoreInfoItem title="Developer Score" content={crypto.developer_score} />
+                            <MoreInfoItem title="Liquidity Score" content={crypto.liquidity_score} />
                             <MoreInfoItem title="Genesis Date" content={crypto.genesis_date} />
                             <MoreInfoItem title="Hashing Algorithm" content={crypto.hashing_algorithm} />
-                            <MoreInfoItem title="Liquidity Score" content={crypto.liquidity_score} />
-                            <MoreInfoItem title="Market Capitalization" content={crypto.market_cap} />
+                            <MoreInfoItem
+                                title="Market Capitalization"
+                                content={fortmatCash(crypto.market_cap) + " $"}
+                            />
                         </TableBody>
                     </Table>
                 </TableContainer>

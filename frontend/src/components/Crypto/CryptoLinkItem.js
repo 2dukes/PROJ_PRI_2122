@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { Fragment, useCallback } from "react";
 import { TableCell, TableRow, Button } from "@mui/material";
 
 const CryptoLinkItem = ({ title, content }) => {
@@ -11,13 +11,13 @@ const CryptoLinkItem = ({ title, content }) => {
     if (!exists) return null;
 
     return (
-        <div>
+        <Fragment>
             <TableRow key={title} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell component="th" scope="row">
                     <Button onClick={handleClick}>{title}</Button>
                 </TableCell>
             </TableRow>
-        </div>
+        </Fragment>
     );
 };
 
