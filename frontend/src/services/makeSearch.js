@@ -95,7 +95,7 @@ const assembleQueryJSON = ({
             mustQuery.push({
                 range: {
                     market_cap: {
-                        gte: marketCap,
+                        gte: marketCap * 1e9,
                     },
                 },
             });
