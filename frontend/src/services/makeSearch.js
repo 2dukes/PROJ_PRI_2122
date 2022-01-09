@@ -95,7 +95,7 @@ const assembleQueryJSON = ({
             mustQuery.push({
                 range: {
                     market_cap: {
-                        gte: marketCap,
+                        gte: marketCap * 1e9,
                     },
                 },
             });
@@ -165,15 +165,27 @@ const assembleQueryJSON = ({
         });
     }
 
-    console.log(mustQuery);
+    let jsonSubQuery = {
+        bool: {
+            must: mustQuery,
+        },
+    };
+
+    if (!searchInput && results.showNews) {
+        jsonSubQuery = {
+            nested: {
+                path: "news",
+                inner_hits: {},
+                query: {
+                    match_all: {},
+                },
+            },
+        };
+    }
 
     let jsonQuery = {
-        size: 100,
-        query: {
-            bool: {
-                must: mustQuery,
-            },
-        },
+        size: 10000,
+        query: jsonSubQuery,
     };
 
     jsonQuery._source = !results.showNews;

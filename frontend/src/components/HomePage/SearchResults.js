@@ -12,7 +12,7 @@ const DefaultInfo = styled("div")({
     height: "90vh",
 });
 
-const SearchResults = ({ searchResultsCryptos, searchResultsArticles }) => {
+const SearchResults = ({ searchResultsCryptos, searchResultsArticles, showResultsOptions }) => {
     const showCryptos = searchResultsCryptos != null && searchResultsCryptos?.length > 0;
     const showNews = searchResultsArticles != null && searchResultsArticles?.length > 0;
 
@@ -28,8 +28,12 @@ const SearchResults = ({ searchResultsCryptos, searchResultsArticles }) => {
 
     return (
         <div>
-            {showCryptos && <SearchResultsCryptos cryptos={searchResultsCryptos} />}
-            {showNews && <SearchResultsNews articles={searchResultsArticles} />}
+            {showCryptos && showResultsOptions.showCryptos && (
+                <SearchResultsCryptos cryptos={searchResultsCryptos} />
+            )}
+            {showNews && showResultsOptions.showNews && (
+                <SearchResultsNews articles={searchResultsArticles} />
+            )}
         </div>
     );
 };

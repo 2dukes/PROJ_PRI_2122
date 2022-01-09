@@ -1,17 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Card, CardActionArea, CardContent, Typography, Avatar } from "@mui/material";
+import { Markup } from "interweave";
 
 import { capitalizeString } from "../../utils/utils";
 
 const SearchResultsItem = ({ searchResultsCrypto }) => {
     return (
         <Card sx={{ margin: "1em" }}>
-            <Link
-                to={`/crypto/${searchResultsCrypto.id}`}
-                component={CardActionArea}
-                style={{ textDecoration: "none" }}
-            >
+            <CardActionArea href={`/crypto/${searchResultsCrypto.id}`}>
                 <CardContent sx={{ display: "flex", alignItems: "center" }}>
                     <Avatar src={searchResultsCrypto.image_url} sx={{ marginRight: "1em" }} />
                     <div>
@@ -29,11 +25,11 @@ const SearchResultsItem = ({ searchResultsCrypto }) => {
                                 WebkitLineClamp: 2,
                             }}
                         >
-                            {searchResultsCrypto.description}
+                            <Markup blockList="a" content={searchResultsCrypto.description} />
                         </Typography>
                     </div>
                 </CardContent>
-            </Link>
+            </CardActionArea>
         </Card>
     );
 };
