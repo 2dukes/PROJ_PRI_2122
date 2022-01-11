@@ -17,7 +17,6 @@ QUERY_FILE = f"queries/query{query_num}.es"
 file_string = ""
 with open(QUERY_FILE, "r") as query_file:
     file_string = "".join(query_file.read().splitlines(True)[1:])
-    
 
 query_json = json.loads(file_string)
 
@@ -30,6 +29,19 @@ results = []
 for coin in outer_results:
     for new in coin['inner_hits']['news']['hits']['hits']:
         results.append(new)
+
+# Print relevance sequence
+relevance_string = ""
+
+for i in range(10):
+    if i < len(results):
+        if results[i]["_source"]["url"] in relevant:
+            relevance_string += "R"
+        else:
+            relevance_string += "N"
+            
+with open(f"relevance_string_news_{query_num}.txt", "w") as file:
+    file.write(relevance_string)
 
 # Calculate precision and recall values as we move down the ranked list
 precision_values = [

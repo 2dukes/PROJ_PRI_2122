@@ -37,7 +37,7 @@ for i in range(10):
         else:
             relevance_string += "N"
             
-with open("relevance_string.txt", "w") as file:
+with open(f"relevance_string_cryptos_{query_num}.txt", "w") as file:
     file.write(relevance_string)
 
 # Calculate precision and recall values as we move down the ranked list
