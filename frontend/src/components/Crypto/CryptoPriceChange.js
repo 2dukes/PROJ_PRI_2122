@@ -8,7 +8,7 @@ const CryptoPriceChange = ({ timeFrame, percentage }) => {
                 background: percentage > 0 ? "green" : "#ba000d",
                 padding: "0.5em",
                 color: "white",
-                width: "6em",
+                width: "8em",
                 display: "flex",
                 justifyContent: "center"
             }}
