@@ -216,7 +216,7 @@ const SearchFilters = ({
                                 multiple
                                 id="tags-outlined"
                                 options={categories}
-                                getOptionLabel={(option) => option}
+                                getOptionLabel={(option) => option ? option : ""}
                                 filterSelectedOptions
                                 renderInput={(params) => (
                                     <TextField

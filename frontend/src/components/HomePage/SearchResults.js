@@ -13,10 +13,17 @@ const DefaultInfo = styled("div")({
 });
 
 const SearchResults = ({ searchResultsCryptos, searchResultsArticles, showResultsOptions }) => {
-    const showCryptos = searchResultsCryptos != null && searchResultsCryptos?.length > 0;
-    const showNews = searchResultsArticles != null && searchResultsArticles?.length > 0;
+    const showCryptos = searchResultsCryptos != null;
+    const showNews = searchResultsArticles != null;
 
-    if (!showCryptos && !showNews) {
+    if (searchResultsCryptos?.length === 0 && searchResultsArticles?.length === 0) {
+        return (
+            <DefaultInfo>
+                <Typography variant="h5">No results found...</Typography>
+            </DefaultInfo>
+        );
+    }
+    else if (!showCryptos && !showNews) {
         return (
             <DefaultInfo>
                 <Typography variant="h5">

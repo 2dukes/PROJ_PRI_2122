@@ -142,7 +142,8 @@ const assembleQueryJSON = ({
                         query: {
                             multi_match: {
                                 query: searchInput,
-                                fields: ["news.title", "news.article"],
+                                fields: ["news.title^5", "news.article^3"],
+                                fuzziness: "auto",
                             },
                         },
                     },
@@ -154,7 +155,9 @@ const assembleQueryJSON = ({
             ftsShouldQuery.push({
                 multi_match: {
                     query: searchInput,
-                    fields: ["id", "description"],
+                    fields: ["id^5", "description^2"],
+                    fuzziness: "auto",
+                    boost: 5,
                 },
             });
 

@@ -79,8 +79,8 @@ const SearchResultsPage = () => {
     const [hashingAlgorithms, setHashingAlgorithms] = useState([]);
     const [selectedAlgorithms, setSelectedAlgorithms] = useState([]);
     const [searchInput, setSearchInput] = useState("");
-    const [searchResultsCryptos, setSearchResultsCryptos] = useState([]);
-    const [searchResultsNews, setSearchResultsNews] = useState([]);
+    const [searchResultsCryptos, setSearchResultsCryptos] = useState(null);
+    const [searchResultsNews, setSearchResultsNews] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const processCryptosSearchResults = ({ response }) => {
