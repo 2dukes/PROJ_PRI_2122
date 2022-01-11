@@ -1,4 +1,0 @@
-"dollar, usd",
-"proof work => pow",
-"proof stake => pos",
-"football => soccer",
