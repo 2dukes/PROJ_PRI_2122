@@ -27,6 +27,19 @@ relevant = list(map(lambda el: el.strip(), open(QRELS_FILE).readlines()))
 
 results = requests.get(QUERY_URL, json=query_json).json()['hits']['hits']
 
+relevance_string = ""
+
+# Print relevance sequence
+for i in range(10):
+    if i < len(results):
+        if results[i]["_source"]["id"] in relevant:
+            relevance_string += "R"
+        else:
+            relevance_string += "N"
+            
+with open("relevance_string.txt", "w") as file:
+    file.write(relevance_string)
+
 # Calculate precision and recall values as we move down the ranked list
 precision_values = [
     len([
