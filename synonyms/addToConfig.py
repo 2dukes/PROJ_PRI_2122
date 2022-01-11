@@ -11,6 +11,7 @@ with open(synonyms_filename, "r") as synonyms_file:
     synonyms = synonyms_file.read().strip(",").split(",\n")
 
 synonyms = list(map(lambda synonym: synonym.strip("\""), synonyms))
+synonyms.remove("\n")
 
 with open("elasticsearch/config.json", "r+") as config_file:
     config_data = json.load(config_file)
