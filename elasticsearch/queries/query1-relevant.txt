@@ -2,3 +2,5 @@ garlicoin
 nework
 quadrant-protocol
 smartcash
+boxx
+mxc
