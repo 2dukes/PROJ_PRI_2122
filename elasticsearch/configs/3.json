@@ -9677,7 +9677,7 @@
       "github": { "type": "keyword", "index": false },
       "image_url": { "type": "keyword", "index": false },
       "all_time_high(usd)": { "type": "double" },
-      "all_time_high_date": { "type": "date" },
+      "all_time_high_date": { "type": "date", "ignore_malformed": true },
       "market_cap": { "type": "double" },
       "current_price": { "type": "double" },
       "price_change_percentage_1y": { "type": "double" },
