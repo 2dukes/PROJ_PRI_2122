@@ -12,4 +12,5 @@ ids = data["id"]
 with open(new_synonyms_filename, "w") as file:
     for id, symbol in zip(ids, symbols):
         symbol = str(symbol).replace("$", "")
-        file.write(f"\"{id}, {symbol}\",\n")
+        if len(symbol.split(" ")) == 1:
+            file.write(f"\"{id}, {symbol}\",\n")

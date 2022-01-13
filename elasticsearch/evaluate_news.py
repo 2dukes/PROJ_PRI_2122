@@ -9,6 +9,7 @@ import pandas as pd
 import sys
 
 query_num = sys.argv[1]
+config_name = sys.argv[2]
 
 QRELS_FILE = f"queries/query{query_num}-relevant.txt"
 QUERY_URL = "http://localhost:9200/cryptos/_search"
@@ -40,7 +41,7 @@ for i in range(10):
         else:
             relevance_string += "N"
             
-with open(f"relevance_string_news_{query_num}.txt", "w") as file:
+with open(f"results/{config_name}/relevance_string_news_{query_num}.txt", "w") as file:
     file.write(relevance_string)
 
 # Calculate precision and recall values as we move down the ranked list
@@ -120,7 +121,7 @@ df = pd.DataFrame([['Metric','Value']] +
     ]
 )
 
-with open(f'results/results{query_num}.tex','w') as tf:
+with open(f'results/{config_name}/results{query_num}.tex','w') as tf:
     tf.write(df.to_latex())
 
 ### PART 3
@@ -144,5 +145,5 @@ disp = PrecisionRecallDisplay([precision_recall_match.get(r) for r in recall_val
 disp.plot()
 disp.ax_.set_title(f"Query {query_num} Precision-Recall Curve")
 
-plt.savefig(f'results/precision_recall{query_num}.pdf')
-plt.savefig(f'results/precision_recall{query_num}.png')
+plt.savefig(f'results/{config_name}/precision_recall{query_num}.pdf')
+plt.savefig(f'results/{config_name}/precision_recall{query_num}.png')
