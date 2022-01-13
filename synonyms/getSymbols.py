@@ -7,7 +7,7 @@ stopwords = ["a", "an", "and", "are", "as", "at", "be", "but", "by",
     "they", "this", "to", "was", "will", "with"]
 
 filename = "files/coins.csv"
-new_synonyms_filename = "synonyms/symbol_synonyms.txt"
+new_synonyms_filename = "synonyms/list_files/symbol_synonyms.txt"
 
 data = pd.read_csv(filename)
 
@@ -28,3 +28,15 @@ with open(new_synonyms_filename, "w") as file:
         symbol = str(symbol).replace("$", "")
         if len(symbol.split(" ")) == 1 and symbol.lower() not in stopwords and id.lower() not in stopwords:
             file.write(f"\"{id}, {symbol}\",\n")
+
+need_to_remove_newline = False
+file_content = None
+
+with open(new_synonyms_filename, "r") as file:
+    file_content = file.read()
+    if file_content[-1] == "\n":
+        need_to_remove_newline = True
+        
+if need_to_remove_newline:
+    with open(new_synonyms_filename, "w") as file:
+        file.write(file_content.strip("\n"))

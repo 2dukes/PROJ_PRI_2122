@@ -1,7 +1,9 @@
 import sys
 import json
 
-synonyms_filename = sys.argv[1]
+config_num = sys.argv[1]
+synonyms_filename = f"synonyms/combinations/{config_num}.txt"
+
 synonyms = ""
 mistakes = ["\n", ""]
 
@@ -22,6 +24,6 @@ for mistake in mistakes:
 with open("elasticsearch/configs/original.json", "r+") as config_file:
     config_data = json.load(config_file)
     config_data["settings"]["analysis"]["filter"]["synonym"]["synonyms"] = synonyms
-    with open("elasticsearch/new_config.json", "w") as file:
+    with open(f"elasticsearch/configs/{config_num}.json", "w") as file:
         json.dump(config_data, file)
         
