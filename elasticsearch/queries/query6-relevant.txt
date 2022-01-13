@@ -1,4 +1,3 @@
 arsenal-fan-token
 flamengo-fan-token
 levante-ud-fan-token
-manchester-city-fan-token

@@ -1,3 +1,4 @@
 garlicoin
 nework
 quadrant-protocol
+smartcash
