@@ -22,7 +22,7 @@ GET /cryptos/_search
             },
             {
               "multi_match": {
-                "query": "nat",
+                "query": "nft",
                 "fields": [
                   "news.title",
                   "news.article"
