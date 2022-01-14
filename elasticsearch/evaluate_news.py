@@ -25,7 +25,7 @@ query_json = json.loads(file_string)
 relevant = list(map(lambda el: el.strip(), open(QRELS_FILE).readlines()))
 # Get query results from Solr instance
 
-outer_results = requests.get(QUERY_URL, json=query_json).json()['hits']['hits']
+outer_results = requests.get(QUERY_URL, json=query_json).json()['hits']['hits'][:10]
 results = []
 for coin in outer_results:
     for new in coin['inner_hits']['news']['hits']['hits']:
@@ -79,6 +79,7 @@ def ap(results, relevant):
             if doc['_source']['url'] in relevant
         ]) / idx 
         for idx in range(1, len(results))
+        if results[idx - 1]['_source']['url'] in relevant
     ]
     return sum(precision_values)/len(precision_values)
 
