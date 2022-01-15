@@ -19,3 +19,5 @@ python3 scripts/convertLatex.py elasticsearch/results/4/results1.tex
 python3 scripts/convertLatex.py elasticsearch/results/4/results4.tex
 python3 scripts/convertLatex.py elasticsearch/results/4/results5.tex
 python3 scripts/convertLatex.py elasticsearch/results/4/results6.tex
+
+python3 scripts/convertLatex.py elasticsearch/results/front-end/results7.tex
