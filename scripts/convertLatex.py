@@ -16,7 +16,7 @@ new_lines = []
 for line in relevant_lines:
     new_lines.append(line[3:])
     
-initial_part = "\\begin{figure}[H]\n\\begin{center}\n\\begin{tabular}{lll}\n\\toprule\n{}                      Metric &         Value \\\\\n\midrule\n"
+initial_part = "\\begin{figure}[h]\n\\begin{center}\n\\begin{tabular}{lll}\n\\toprule\n{}                      Metric &         Value \\\\\n\midrule\n"
 final_part = "\n\\bottomrule\n\end{tabular}\n\end{center}\n\caption{Query " + query_num + " Metrics in configuration " + config_num + "}\n\label{fig:query_" + query_num + "_metrics_config_" + config_num + "}\n\end{figure}"
 
 with open(file_to_convert, "w") as file:
